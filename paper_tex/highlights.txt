@@ -1,0 +1,6 @@
+Highlights
+- Conformal calibration of the alarm itself guarantees notice beyond the lead time
+- Per-cycle conformal RUL bounds failed on up to 70% of units at nominal 10%
+- Treating replaced units as failed keeps the guarantee under any censoring
+- A sizing rule: certifying failure risk alpha needs at least 1/alpha - 1 units
+- Calibration does not transfer across battery batches; pilot units restore it

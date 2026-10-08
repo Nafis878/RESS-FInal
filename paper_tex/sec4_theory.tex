@@ -1,0 +1,104 @@
+\section{Theory}\label{sec:theory}
+
+\subsection{The critical level and the notice guarantee}
+
+Two elementary properties of the trigger make the notice calibratable.
+
+\begin{lemma}[Monotonicity]\label{lem:mono}
+For $H \le H'$, $\tau(H') \le \tau(H)$ and $N(H') \ge N(H)$.
+\end{lemma}
+\begin{proof}
+$\rho$ is non-increasing, so $\{j:\rho_j\le H\}\subseteq\{j:\rho_j\le H'\}$; the first element of the larger set is not later, and $r_j$ decreases in $j$.
+\end{proof}
+
+\begin{lemma}[Critical level]\label{lem:crit}
+Let $j_\ell=\max\{j:r_j>\ell\}$ and define the \emph{critical level} $V(\ell)=\rho_{j_\ell}$ ($V=+\infty$ if no row has $r_j>\ell$). Then for every finite $H$, $N(H)>\ell \iff H\ge V(\ell)$.
+\end{lemma}
+\begin{proof}
+Because $r$ decreases in $j$, $N(H)>\ell$ iff the alarm is raised at a row $\tau(H)\le j_\ell$, iff $\rho_j\le H$ for some $j\le j_\ell$, iff $\rho_{j_\ell}\le H$, because $\rho$ is non-increasing.
+\end{proof}
+
+$V$ is the lowest warning level at which the unit's alarm would still have left more than $\ell$ cycles. It is one number per unit, computed from its signal and its life in a single pass, and it is all that calibration needs.
+
+\begin{theorem}[Notice guarantee]\label{thm:main}
+Fix the signal map (for example a regressor fitted on units disjoint from those below), the smoothing, the debounce $k$ and the lead time $\ell$, and assume that every unit has at least $k$ rows with $r_j>\ell$, so that $V<\infty$. Let the calibration units $1,\dots,n$ and a new unit $n+1$ be exchangeable, with critical levels $V_1,\dots,V_{n+1}$. For $\alpha\in[1/(n+1),1)$ let $q=\lceil (n+1)(1-\alpha)\rceil$ and $\hat H=V_{(q)}$, the $q$-th smallest of $V_1,\dots,V_n$. Then
+\begin{equation}\label{eq:guarantee}
+P\bigl(N_{n+1}(\hat H)>\ell\bigr)\ \ge\ 1-\alpha ,
+\end{equation}
+where the probability is over the calibration units and the new unit. If the $V_i$ are almost surely distinct, the probability is also at most $1-\alpha+1/(n+1)$.
+\end{theorem}
+\begin{proof}
+By Lemma~\ref{lem:crit} the event is $\{V_{n+1}\le \hat H\}$. If $V_{n+1}>V_{(q)}$, at least $q$ calibration values are strictly smaller than $V_{n+1}$, so the rank of $V_{n+1}$ among all $n+1$ values (ties broken uniformly at random) is at least $q+1$. By exchangeability the rank is uniform on $\{1,\dots,n+1\}$, so $P(V_{n+1}>\hat H)\le (n+1-q)/(n+1)\le\alpha$. With distinct values, $V_{n+1}\le V_{(q)}$ iff the rank is at most $q$, which has probability $q/(n+1)<1-\alpha+1/(n+1)$.
+\end{proof}
+
+For $\alpha<1/(n+1)$ the level is not attainable with $n$ calibration units, and the procedure reports this instead of a level.
+
+\begin{corollary}[A decision-aware choice keeps the guarantee]\label{cor:da}
+Let $q_0=\lceil (n+1)(1-\alpha_{\max})\rceil$ and let $\hat q\ge q_0$ be any index chosen from the calibration data, for example to minimise an estimated cost. Then $P\bigl(N_{n+1}(V_{(\hat q)})>\ell\bigr)\ge 1-\alpha_{\max}$.
+\end{corollary}
+\begin{proof}
+$V_{(\hat q)}\ge V_{(q_0)}$; by Lemma~\ref{lem:mono} the event for $V_{(\hat q)}$ contains the event for $V_{(q_0)}$, whose probability is at least $1-\alpha_{\max}$ by Theorem~\ref{thm:main}.
+\end{proof}
+
+\begin{proposition}[Cost bound and certification floor]\label{prop:cost}
+(i) Under the conditions of Theorem~\ref{thm:main}, the expected cost of one renewal cycle of a new unit is at most $1+(\rho-1)\alpha$, and its long-run cost rate is at most $(1+(\rho-1)\alpha)/E[\text{use}]$. (ii) If the critical levels are almost surely distinct, the alarm at $V_{(q)}$ fails before replacement with probability exactly $(n+1-q)/(n+1)$. Hence no level chosen among the order statistics has a failure probability below $1/(n+1)$, the expected cost of a renewal cycle is then at least $1+(\rho-1)/(n+1)$, and certifying a failure probability $\alpha$ requires $n\ge 1/\alpha-1$ calibration units.
+\end{proposition}
+\begin{proof}
+(i) The cost of a cycle is $1+(\rho-1)\mathbf 1\{N\le\ell\}$; take expectations and apply the renewal--reward theorem. (ii) With distinct values the rank of $V_{n+1}$ is uniform, and the alarm fails iff the rank exceeds $q$, with probability $(n+1-q)/(n+1)$, which is smallest at $q=n$.
+\end{proof}
+
+Proposition~\ref{prop:cost}(ii) is the price of a distribution-free certificate. With 32 calibration units and a failure that costs as much as fifty planned replacements, any order-statistic level carries an expected excess of at least $49/33\approx 1.5$ replacement costs per renewal over a policy that never fails. Rules that choose levels beyond the most demanding calibration unit can do better on a given test set, but nothing certifies them.
+
+\subsection{Censored calibration data}
+
+In a fleet most units are replaced before they fail, so their lives, and hence their critical levels, are not observed. A replaced unit is still informative.
+
+\begin{lemma}[Censoring gives an upper bound]\label{lem:cens}
+If a unit is known to be alive at cycle $c$ ($L>c$), then $V(\ell)\le U(c)$, where $U(c)=\rho_{j_c}$ with $j_c=\max\{j:t_j\le c-\ell\}$ ($U=+\infty$ if no such row). $U(c)$ is the critical level the unit would have had if it had failed immediately after $c$.
+\end{lemma}
+\begin{proof}
+For rows with $t_j\le c-\ell$, $r_j=L-t_j>c-t_j\ge\ell$, so $j_\ell\ge j_c$ and $V=\rho_{j_\ell}\le\rho_{j_c}$ because $\rho$ is non-increasing. If the unit had failed immediately after $c$, its last row with more than $\ell$ cycles left would be $j_c$.
+\end{proof}
+
+\begin{theorem}[Guarantee under arbitrary censoring]\label{thm:cens}
+Under the conditions of Theorem~\ref{thm:main}, let each calibration unit report $W_i=V_i$ if its failure was observed and $W_i=U_i(c_i)$ if it was last seen alive at $c_i$, where the censoring times may depend in any way on the units, their signals and each other. Then $\hat H_W=W_{(q)}$ satisfies $P\bigl(N_{n+1}(\hat H_W)>\ell\bigr)\ge 1-\alpha$.
+\end{theorem}
+\begin{proof}
+By Lemma~\ref{lem:cens}, $W_i\ge V_i$ for every $i$, so every order statistic satisfies $W_{(q)}\ge V_{(q)}$. By Lemma~\ref{lem:mono} the event for $\hat H_W$ contains the event for $V_{(q)}$, whose probability is at least $1-\alpha$ by Theorem~\ref{thm:main}. No assumption on the censoring mechanism is used, because the comparison is pathwise.
+\end{proof}
+
+In words: treat every censored unit as if it had failed immediately after it was last seen alive. The guarantee survives any censoring mechanism, including informative censoring, at the price of conservatism that grows with how early units are censored. Dropping censored units (complete-case analysis) keeps the guarantee only when censoring is independent of the unit. A useful special case is censoring by an earlier alarm policy: a unit replaced $\ell$ cycles after an alarm at level $H_0$ has $U\le H_0$, so if $H_0$ lies below the target quantile, such units do not move $\hat H_W$ at all (Section~\ref{sec:res-cens}).
+
+\subsection{Calibration on all training units by cross-fitting}
+
+The split design spends calibration units that could have trained the signal. Cross-fitting uses every training unit for both, at the price of a weaker guarantee. Partition the $n$ training units into $K$ folds, let $\mu_{-k}$ be the signal model fitted without fold $k$ by a symmetric algorithm, let $V_i$ be the critical level of unit $i$ under $\mu_{-k(i)}$, and let $\rho^{(k)}_t$ be the debounced running minimum of a new unit under $\mu_{-k}$. The cross-fitted alarm (CNA+) is raised at the first row at which
+\begin{equation}\label{eq:cvplus}
+C_t=\#\{i:\rho^{(k(i))}_t\le V_i\}\ \ge\ n+1-\lceil(1-\alpha)(n+1)\rceil .
+\end{equation}
+$C_t$ is non-decreasing in $t$, so the rule is a trigger.
+
+\begin{theorem}[Cross-fitted guarantee]\label{thm:cvplus}
+If the $n$ training units and the new unit are exchangeable and the folds have equal size $n/K$, then
+\[
+P\bigl(N_{n+1}>\ell\bigr)\ \ge\ 1-2\alpha-\min\Bigl\{\tfrac{2(1-1/K)}{n/K+1},\ \tfrac{1-K/n}{K+1}\Bigr\}.
+\]
+\end{theorem}
+\begin{proof}
+Let $V^{(k)}_{n+1}$ be the critical level of the new unit under $\mu_{-k}$. By Lemma~\ref{lem:crit} applied under each model, $\rho^{(k)}_{j_\ell}\le V_i\iff V^{(k)}_{n+1}\le V_i$, so the alarm fails to leave more than $\ell$ cycles iff $C_{j_\ell}<n+1-q$, that is iff $\#\{i:V^{(k(i))}_{n+1}>V_i\}\ge q$ with $q=\lceil(1-\alpha)(n+1)\rceil$. This is the non-coverage event of the CV+ interval of Barber et al.~\cite{barber2021} with the nonconformity score ``critical level of a unit under a model not fitted on it''. Their proof of the CV+ bound (their Theorem~4) compares scores through a tournament matrix built from leave-fold-out models and uses only the exchangeability of the units and the symmetry of the fitting algorithm, not the form of the score, so it applies verbatim and gives the stated bound.
+\end{proof}
+
+The bound is loose for small $n$ (with $n=80$ and $K=5$ the finite-$K$ term is about $0.09$), and, as for CV+ intervals~\cite{barber2021}, realised failure rates are usually close to $\alpha$; Section~\ref{sec:res-cost} reports them.
+
+\subsection{What a window score and a per-cycle interval certify}
+
+\begin{proposition}[Window score of an estimate versus a constant]\label{prop:window}
+Let $R\in\mathbb Z$ be the notice at the alarm, $\hat Y$ the reported estimate, $[a,b]$ the acceptance window for $e=\hat Y-R$, $c$ any constant and $D=\hat Y-c$. With the half-open intervals $I_b=[c-b,\,c-b+D)$ and $I_a=(c-a,\,c-a+D]$ for $D\ge0$ (mirrored for $D<0$):
+(i) $\bigl|\mathbf 1\{a\le\hat Y-R\le b\}-\mathbf 1\{a\le c-R\le b\}\bigr|\le \mathbf 1\{R\in I_a\}+\mathbf 1\{R\in I_b\}$;
+(ii) if, given $\hat Y$, the probability mass function of $R$ is at most $\pi_a$ within $\Delta$ of $c-a$ and at most $\pi_b$ within $\Delta$ of $c-b$, and $|D|\le\Delta$, then the window scores satisfy $|S_{\text{est}}-S_c|\le(\pi_a+\pi_b)\,E\lceil|D|\rceil$;
+(iii) if the reported estimate is the triggering signal, $\hat Y=s_\tau$, and $\tau>k$, then $H-k\delta^+\le\hat Y\le H$ with $\delta^+=\max\bigl(0,\max_{\tau-k<i\le\tau}(s_{i-1}-s_i)\bigr)$.
+\end{proposition}
+\begin{proof}
+(i) For $D\ge0$ the estimate accepts $R\in[c-b+D,c-a+D]$ and the constant $R\in[c-b,c-a]$. $R$ accepted only by the estimate satisfies $c-a<R\le c-a+D$; accepted only by the constant, $c-b\le R<c-b+D$. The case $D<0$ is symmetric, and the argument holds also when the two sets are disjoint. (ii) Take expectations of (i); a half-open interval of length $|D|$ contains at most $\lceil|D|\rceil$ integers. (iii) $\hat Y=s_\tau\le m_\tau\le H$. As the alarm was not raised at $\tau-1\ge k$, some row $i_0\in[\tau-k,\tau-1]$ has $s_{i_0}>H$, and $s_\tau=s_{i_0}-\sum_{i=i_0+1}^{\tau}(s_{i-1}-s_i)>H-k\delta^+$.
+\end{proof}
+
+For a threshold-crossing alarm the reported estimate is pinned to a band of width $k\delta^+$ below the level, so a window score is, up to the edge term of (ii), the probability that the notice falls in a band $[c-b,c-a]$. It can be high while the notice is too short for the lead time, so it cannot certify the event of Theorem~\ref{thm:main}. Nor can a per-cycle conformal lower bound $\mathrm{LB}_t=s_t-q_\alpha$: its coverage $P(r_t\ge\mathrm{LB}_t)\ge1-\alpha$ holds for a row drawn independently of the data, whereas the alarm ``act when $\mathrm{LB}_t\le\ell+1$'' is read at the first row at which the bound crosses a level, where an optimistic error is most likely. That alarm is a threshold trigger at level $\ell+1+q_\alpha$ on the same signal, so it differs from CNA only in how the level is calibrated, which makes it the natural comparator (Section~\ref{sec:res-valid}).

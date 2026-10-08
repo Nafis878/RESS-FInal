@@ -1,0 +1,39 @@
+\section{Discussion}\label{sec:discussion}
+
+\subsection{What the results establish}
+
+Calibrating the alarm rather than the interval did what Theorem~\ref{thm:main} says it does. On seven datasets, with between 32 and 83 calibration units, the failure-before-replacement rate followed its nominal level, while a per-cycle lower bound at the same nominal level, on the same signal and trigger, failed on up to 70\,\% of units. The difference is not a matter of tuning: per-cycle coverage averages over cycles chosen independently of the data, whereas an alarm is read at the first cycle at which the signal crosses a level, the cycle at which an optimistic error is most likely. Restricting the per-cycle residuals to the near-failure region repaired most of the gap on six datasets, but how close it came depended on that choice of rows, and on N-CMAPSS it exceeded its level by half. Calibrating the critical level removes the choice, because the quantity calibrated is the event the operator cares about. The practical message for the growing use of conformal RUL intervals in maintenance~\cite{javanmardi2023,robinson2026,wang2025robustuq} is that interval coverage should not be read as alarm reliability.
+
+\subsection{A deployment recipe}
+
+\input{sec8_recipe}
+
+\subsection{What the guarantee costs}
+
+\input{sec8_cost}
+
+\subsection{Transfer and censoring in the field}
+
+The battery results show the limit of every exchangeability-based guarantee: calibrated on two batches, the alarm failed on most cells of a third, shorter-lived batch, and similar failures occurred on three of nine N-CMAPSS subsets. This is not a defect of the conformal step, which did what it promised for the population it was calibrated on, but it is a warning against reading a validated failure rate as a property of the alarm rather than of the alarm and a population. Two remedies were examined. Conservative uncertified rules carried enough margin to survive this shift, at the price of notice that is wasted when the population does not change. Recalibration on ten pilot cells of the new batch restored the nominal rate, and Theorem~\ref{thm:cens} removes the need to run those cells to failure: cells replaced under a conservative interim level count as censored calibration units. Weighted or non-exchangeable conformal methods~\cite{tibshirani2019,barber2023} could use covariates of the new batch, such as its charging protocol, to reweight calibration units; this needs a model of the shift and was not attempted.
+
+\subsection{Limitations}
+
+\begin{itemize}[leftmargin=1.2em,itemsep=2pt]
+\item \textbf{Data.} Five of the seven datasets come from one simulator family and the battery cells are laboratory data. Censoring was imposed on complete run-to-failure records by three mechanisms; no field fleet with genuinely censored lives was analysed, and none was available to us. Bearings were excluded because 17 units cannot support the guarantee.
+\item \textbf{Exchangeability.} The guarantee is marginal and requires exchangeable calibration and new units. It failed across battery batches and N-CMAPSS subsets, and it may fail under slower drifts within one population. It is not conditional on the calibration set; a training-conditional version follows from the Beta distribution of the coverage~\cite{vovk2012}.
+\item \textbf{Scope.} The theory covers threshold triggers with debounce on a causal signal and a fixed lead time. The settings of CNA (cap, smoothing, debounce) were fixed a priori, not optimised. The cross-fitted guarantee (Theorem~\ref{thm:cvplus}) is weaker than the split guarantee.
+\item \textbf{Cost.} The renewal--reward model assumes independent units, replacement as good as new and illustrative cost ratios. Section~\ref{sec:res-m} uses the decision setting of Kamariotis et al.\ but our own implementation of their policy and of the probability model behind it.
+\item \textbf{Pre-specification.} Both protocols were hashed before their runs but not registered, and the amendment was written after the main results were known. The equivalence and cost hypotheses of the main protocol failed and are reported as such; the prominence of Proposition~\ref{prop:cost}(ii) as the explanation of the cost results was decided after those results were seen.
+\end{itemize}
+
+\section{Conclusion}\label{sec:conclusion}
+
+\input{sec9_conclusion}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+\noindent During the preparation of this work the authors used Claude (Anthropic), an AI assistant, to search the literature, write and run the analysis code, draft the theory and proofs, and draft and revise the manuscript text. The protocols, all experiments and all reported numbers were produced by the code in the accompanying repository and checked against its output files. After using this tool the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
+
+\section*{Data and code availability}
+
+\noindent PHM08, C-MAPSS and N-CMAPSS are available from the NASA Prognostics Center of Excellence data repository, and the battery data of Severson et al.~\cite{severson2019} from \url{https://data.matr.io}. Code, hashed protocols, derived data summaries, per-unit results and the scripts that produce every table and figure are in a repository whose link is withheld for anonymised review.

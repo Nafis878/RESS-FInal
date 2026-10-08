@@ -63,6 +63,19 @@ def test_causal_features(rng):
     for t in (10, 50, 150): assert np.isclose(Pp.trend_rul(q[:t + 1], 20, 3)[-1], full[t])
 
 
+def test_censoring_bound(rng):
+    """Lemma 3: a unit alive at c has V <= U(c), and U(c) equals the critical level computed as if it failed at c"""
+    from run2 import upper_level
+    for _ in range(300):
+        r, s = random_unit(rng); t = np.arange(1, len(r) + 1, dtype=float); L = t[-1] + r[-1]
+        k = int(rng.integers(1, 4)); lead = int(rng.integers(0, 15)); rm = C.debounced_running_min(s, k)
+        V = C.critical_level(rm, r, lead); c = float(rng.uniform(t[0], L))
+        U = upper_level(rm, dict(t=t), lead, c)
+        assert U >= V - 1e-12
+        r_c = c + 1e-9 - t                                        # remaining life if the unit had failed just after c
+        assert np.isclose(U, C.critical_level(rm, r_c, lead)) or (np.isinf(U) and np.isinf(C.critical_level(rm, r_c, lead)))
+
+
 def test_tango():
     lo, hi = S.tango_ci(0, 0, 50, 0.90); z = 1.6448536269514722
     assert abs(hi - z * z / (50 + z * z)) < 1e-6 and abs(lo + hi) < 1e-9
@@ -70,6 +83,6 @@ def test_tango():
 
 if __name__ == '__main__':
     rng = np.random.default_rng(0)
-    test_first_alarm_and_critical_level(rng); test_theorem1(rng); test_causal_features(rng); test_tango()
+    test_first_alarm_and_critical_level(rng); test_theorem1(rng); test_causal_features(rng); test_censoring_bound(rng); test_tango()
     print('conformal failure rate (alpha 0.10, n 30):', round(test_conformal_guarantee(rng), 4))
     print('ALL TESTS PASSED')

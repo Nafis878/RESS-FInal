@@ -1,0 +1,17 @@
+Table~\ref{tab:recipe} turns the results into a procedure. Its steps are the ones that, in this study, changed whether the stated reliability was achieved; none requires a model of the degradation or of the RUL error.
+
+\begin{table}[t]\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Deployment recipe for a notice-guaranteed end-of-life alarm.}\label{tab:recipe}
+\begin{tabular}{@{}p{0.04\linewidth}p{0.93\linewidth}@{}}
+\toprule
+& Step and reason \\
+\midrule
+1 & State the lead time $\ell$ and the tolerated probability $\alpha$ of failure before the planned replacement; check $n\ge1/\alpha-1$ calibration units are available (Proposition~\ref{prop:cost}). \\
+2 & Fix the signal and trigger (smoothing, debounce, cap) before looking at the calibration units, or select them on units not used for calibration. \\
+3 & Collect calibration units from the population in which the alarm will run. Use replaced or still-running units as censored units, their critical level computed as if they had failed when last seen alive (Theorem~\ref{thm:cens}). \\
+4 & Compute critical levels (Lemma~\ref{lem:crit}) and set $\hat H$ to their conformal quantile; with a cost ratio, choose among admissible order statistics (Corollary~\ref{cor:da}). \\
+5 & When the population changes (new batch, campaign or operating regime), recalibrate on units of the new population, starting from a conservative interim level; do not carry a calibrated level across populations. \\
+6 & Report the failure rate with its interval, the notice given, and the number of calibration units the claim rests on; do not report interval coverage or a window score as alarm reliability. \\
+\bottomrule
+\end{tabular}
+\end{table}

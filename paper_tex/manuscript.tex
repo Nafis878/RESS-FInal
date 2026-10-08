@@ -1,0 +1,44 @@
+\documentclass[a4paper,fleqn,doubleblind]{cas-dc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\renewcommand{\sfdefault}{bch}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{graphicx,booktabs,array,enumitem,multirow}
+\usepackage{algorithm}
+\usepackage[section]{placeins}
+\usepackage{xurl}
+\urlstyle{same}
+\usepackage[switch]{lineno}
+\usepackage[expansion=false]{microtype}
+\renewcommand{\linenumberfont}{\normalfont\tiny\color{gray}}
+\setlength{\bibsep}{1pt}
+\renewcommand{\figurename}{Fig.}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\begin{document}
+\let\WriteBookmarks\relax
+\let\printorcid\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+\shorttitle{Calibrating the alarm, not the interval}
+\shortauthors{Anonymised manuscript}
+\title[mode=title]{Calibrating the alarm, not the interval: distribution-free notice guarantees for end-of-life alarms, with censored fleet data}
+\input{sec0_abstract}
+\maketitle
+\linenumbers
+\input{sec1_intro}
+\input{sec2_3}
+\input{sec4_theory}
+\input{sec5_6}
+\input{sec7_results}
+\input{sec8_discussion}
+\input{refs}
+\end{document}
