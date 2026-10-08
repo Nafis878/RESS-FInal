@@ -11,7 +11,12 @@ lp = lambda d: 30 if d == 'BATTERY' else 10
 
 
 def load(kind, folder=RAW2):
-    return pd.concat([pd.read_csv(f'{folder}/{d}_{kind}.csv.gz') for d in DS if os.path.exists(f'{folder}/{d}_{kind}.csv.gz')], ignore_index=True)
+    import glob
+    if folder == RAW2:
+        fs = sorted(f for d in DS for f in glob.glob(f'{folder}/{d}_rep*_{kind}.csv.gz'))
+    else:
+        fs = [f'{folder}/{d}_{kind}.csv.gz' for d in DS if os.path.exists(f'{folder}/{d}_{kind}.csv.gz')]
+    return pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
 
 
 def censoring():

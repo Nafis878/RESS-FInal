@@ -1,9 +1,9 @@
 """Amendment experiments (protocol_v2.md): censored calibration data, cross-fitted calibration (CV+), and the decision
 setting of Kamariotis et al. (decision grid, no lead time, metric M).
 
-Usage: python run2.py DATASET [REPEATS]
+Usage: python run2.py DATASET [REPS, e.g. 0 or 0,1,2]
 Same outer splits, proper-training/calibration splits and seeds as run.py, so the split-conformal policies here reproduce
-those of run.py unit by unit. Outputs in results/raw2/: <DS>_censor.csv.gz, <DS>_cvplus.csv.gz, <DS>_grid.csv.gz
+those of run.py unit by unit. Outputs in results/raw2/: <DS>_rep<r>_censor.csv.gz, <DS>_rep<r>_cvplus.csv.gz, <DS>_rep<r>_grid.csv.gz
 """
 import os, sys, time
 import numpy as np, pandas as pd
@@ -185,14 +185,18 @@ def run_split(df, kind, an, name, tr, te, rep, sidx):
 
 
 def main(ds, reps):
-    df, kind = load(ds); S = splits(df, kind); A, B, G = [], [], []
-    for rep in range(reps):
+    """one output file set per (dataset, repetition); existing checkpoints are skipped"""
+    df, kind = load(ds); S = splits(df, kind)
+    for rep in reps:
+        tag = f'{OUT}/{ds}_rep{rep}'
+        if os.path.exists(f'{tag}_cvplus.csv.gz'): print(ds, 'rep', rep, 'exists'); continue
+        A, B, G = [], [], []
         for sidx, (an, name, tr, te) in enumerate(S):
             a, b, g = run_split(df, kind, an, name, tr, te, rep, sidx); A += a; B += b; G += g
-    pd.DataFrame(A).assign(dataset=ds).to_csv(f'{OUT}/{ds}_censor.csv.gz', index=False)
-    pd.DataFrame(B).assign(dataset=ds).to_csv(f'{OUT}/{ds}_cvplus.csv.gz', index=False)
-    if G: pd.DataFrame(G).assign(dataset=ds).to_csv(f'{OUT}/{ds}_grid.csv.gz', index=False)
-    print(ds, 'written', flush=True)
+        pd.DataFrame(A).assign(dataset=ds).to_csv(f'{tag}_censor.csv.gz', index=False)
+        if G: pd.DataFrame(G).assign(dataset=ds).to_csv(f'{tag}_grid.csv.gz', index=False)
+        pd.DataFrame(B).assign(dataset=ds).to_csv(f'{tag}_cvplus.csv.gz', index=False)
+        print(ds, 'rep', rep, 'written', flush=True)
 
 
 if __name__ == '__main__':
@@ -204,4 +208,4 @@ if __name__ == '__main__':
         if g:
             G = pd.DataFrame(g); print(G.groupby(['ratio', 'policy']).agg(fail=('fail', 'mean'), c=('cost', 'sum'), u=('use', 'sum')).assign(R=lambda x: x.c / x.u))
     else:
-        main(sys.argv[1], int(sys.argv[2]) if len(sys.argv) > 2 else 3)
+        main(sys.argv[1], [int(x) for x in sys.argv[2].split(',')] if len(sys.argv) > 2 else [0, 1, 2])
