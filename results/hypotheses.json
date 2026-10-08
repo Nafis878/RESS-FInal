@@ -1,0 +1,202 @@
+{
+ "H1": {
+  "table": [
+   {
+    "dataset": "BATTERY",
+    "lead": 30,
+    "n": 123,
+    "failures": 15,
+    "rate": 0.122,
+    "ci_lo": 0.0699,
+    "ci_hi": 0.1932,
+    "p_exceed": 0.247,
+    "p_holm": 1.0
+   },
+   {
+    "dataset": "FD001",
+    "lead": 10,
+    "n": 100,
+    "failures": 7,
+    "rate": 0.07,
+    "ci_lo": 0.0286,
+    "ci_hi": 0.1389,
+    "p_exceed": 0.8828,
+    "p_holm": 1.0
+   },
+   {
+    "dataset": "FD002",
+    "lead": 10,
+    "n": 260,
+    "failures": 20,
+    "rate": 0.0769,
+    "ci_lo": 0.0476,
+    "ci_hi": 0.1163,
+    "p_exceed": 0.9147,
+    "p_holm": 1.0
+   },
+   {
+    "dataset": "FD003",
+    "lead": 10,
+    "n": 100,
+    "failures": 14,
+    "rate": 0.14,
+    "ci_lo": 0.0787,
+    "ci_hi": 0.2237,
+    "p_exceed": 0.1239,
+    "p_holm": 0.8414
+   },
+   {
+    "dataset": "FD004",
+    "lead": 10,
+    "n": 249,
+    "failures": 31,
+    "rate": 0.1245,
+    "ci_lo": 0.0862,
+    "ci_hi": 0.172,
+    "p_exceed": 0.1202,
+    "p_holm": 0.8414
+   },
+   {
+    "dataset": "NCMAPSS",
+    "lead": 10,
+    "n": 99,
+    "failures": 11,
+    "rate": 0.1111,
+    "ci_lo": 0.0568,
+    "ci_hi": 0.1901,
+    "p_exceed": 0.4037,
+    "p_holm": 1.0
+   },
+   {
+    "dataset": "PHM08",
+    "lead": 10,
+    "n": 218,
+    "failures": 18,
+    "rate": 0.0826,
+    "ci_lo": 0.0497,
+    "ci_hi": 0.1274,
+    "p_exceed": 0.834,
+    "p_holm": 1.0
+   }
+  ],
+  "rejected_on": [],
+  "supported": true
+ },
+ "H2": {
+  "table": [
+   {
+    "dataset": "BATTERY",
+    "lead": 30,
+    "n": 123,
+    "failures": 96,
+    "rate": 0.7805,
+    "p_exceed": 0.0
+   },
+   {
+    "dataset": "FD001",
+    "lead": 10,
+    "n": 100,
+    "failures": 33,
+    "rate": 0.33,
+    "p_exceed": 0.0
+   },
+   {
+    "dataset": "FD002",
+    "lead": 10,
+    "n": 260,
+    "failures": 92,
+    "rate": 0.3538,
+    "p_exceed": 0.0
+   },
+   {
+    "dataset": "FD003",
+    "lead": 10,
+    "n": 100,
+    "failures": 44,
+    "rate": 0.44,
+    "p_exceed": 0.0
+   },
+   {
+    "dataset": "FD004",
+    "lead": 10,
+    "n": 249,
+    "failures": 136,
+    "rate": 0.5462,
+    "p_exceed": 0.0
+   },
+   {
+    "dataset": "NCMAPSS",
+    "lead": 10,
+    "n": 99,
+    "failures": 19,
+    "rate": 0.1919,
+    "p_exceed": 0.0041
+   },
+   {
+    "dataset": "PHM08",
+    "lead": 10,
+    "n": 218,
+    "failures": 104,
+    "rate": 0.4771,
+    "p_exceed": 0.0
+   }
+  ],
+  "n_exceed": 7,
+  "supported": true
+ },
+ "H4b": {
+  "max_rate": 0.06060606060606061,
+  "cells_rejected": 0,
+  "n_cells": 84,
+  "supported": true
+ },
+ "H3": {
+  "equivalent_on": [
+   "FD002"
+  ],
+  "not_equivalent_on": [
+   "BATTERY",
+   "FD001",
+   "FD003",
+   "FD004",
+   "NCMAPSS",
+   "PHM08"
+  ],
+  "supported": false,
+  "bound_holds_on": 6,
+  "bound_holds_discordance_on": 4,
+  "n": 7
+ },
+ "H5a": {
+  "table": [
+   {
+    "split": "g1",
+    "n": 36,
+    "failures": 0,
+    "rate": 0.0,
+    "p_exceed": 1.0
+   },
+   {
+    "split": "g2",
+    "n": 43,
+    "failures": 33,
+    "rate": 0.7674,
+    "p_exceed": 0.0
+   },
+   {
+    "split": "g3",
+    "n": 44,
+    "failures": 26,
+    "rate": 0.5909,
+    "p_exceed": 0.0
+   }
+  ],
+  "supported": true
+ },
+ "H5b": {
+  "cells": 12,
+  "ok": 12,
+  "worst": 0.09707070707070703,
+  "supported": true
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "H1": {
+  "rejected_on": [],
+  "supported": true
+ },
+ "H2": {
+  "n_exceed": 7,
+  "supported": true
+ },
+ "H4b": {
+  "max_rate": 0.06060606060606061,
+  "cells_rejected": 0,
+  "n_cells": 84,
+  "supported": true
+ },
+ "H3": {
+  "equivalent_on": [
+   "FD002"
+  ],
+  "not_equivalent_on": [
+   "BATTERY",
+   "FD001",
+   "FD003",
+   "FD004",
+   "NCMAPSS",
+   "PHM08"
+  ],
+  "supported": false,
+  "bound_holds_on": 6,
+  "bound_holds_discordance_on": 4,
+  "n": 7
+ },
+ "H5a": {
+  "supported": true
+ },
+ "H5b": {
+  "cells": 12,
+  "ok": 12,
+  "worst": 0.09707070707070703,
+  "supported": true
+ }
+}
