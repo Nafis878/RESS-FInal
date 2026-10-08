@@ -33,6 +33,21 @@ By Lemma~\ref{lem:crit} the event is $\{V_{n+1}\le \hat H\}$. If $V_{n+1}>V_{(q)
 
 For $\alpha<1/(n+1)$ the level is not attainable with $n$ calibration units, and the procedure reports this instead of a level.
 
+Theorem~\ref{thm:main} averages over calibration sets. An operator who calibrates once and then runs the alarm on many units faces instead the failure probability given that calibration set, $\pi=P\bigl(N_{n+1}(\hat H)\le\ell\mid V_1,\dots,V_n\bigr)$, which varies from one calibration set to the next.
+
+\begin{corollary}[Training-conditional guarantee]\label{cor:pac}
+Under the conditions of Theorem~\ref{thm:main} with independent and identically distributed units, $P(\pi>x)\le 1-\mathcal B(x;\,n+1-q,\,q)$ for every $x\in[0,1]$, where $\mathcal B(\cdot\,;a,b)$ is the Beta distribution function; if the critical levels are almost surely distinct, $\pi$ has exactly the Beta$(n+1-q,q)$ distribution. Consequently, the smallest $q$ with $\mathcal B(\alpha;\,n+1-q,\,q)\ge1-\delta$ gives $P(\pi\le\alpha)\ge1-\delta$.
+\end{corollary}
+\begin{proof}
+Let $G$ be the distribution function of $V$ and $G^{-}(u)=\inf\{v:G(v)\ge u\}$. With $U_1,\dots,U_n$ independent uniform, $(V_i)$ has the law of $(G^{-}(U_i))$, so $V_{(q)}=G^{-}(U_{(q)})$ and, by Lemma~\ref{lem:crit}, $\pi=1-G(V_{(q)})\le 1-U_{(q)}$ because $G(G^{-}(u))\ge u$, with equality when $G$ is continuous. $1-U_{(q)}$ has the Beta$(n+1-q,q)$ distribution~\cite{vovk2012}.
+\end{proof}
+
+Among $m$ test units sharing one calibration set the number of failures is then Beta-binomial, which predicts how much a failure rate measured on a few dozen units varies around $\alpha$. With 32 calibration units and $\alpha=0.10$ ($q=30$), $\pi$ exceeds 15\,\% for 12\,\% of calibration sets and exceeds 18.4\,\% for 5\,\%; with 83 units ($q=76$) the two figures are 5.7\,\% and 15.3\,\%. Being 90\,\% confident that $\pi\le0.10$ requires $q=n$ with 32 units (marginal failure probability $1/33=3.0\,\%$) and $q=79$ with 83 units (6.0\,\%).
+
+\begin{remark}[Uncertain lead times]\label{rem:lead}
+$V(\ell)$ is non-decreasing in $\ell$, because $j_\ell$ is non-increasing and $\rho$ non-increasing. Calibrating at an upper bound $\ell_{\max}$ of the lead time therefore keeps~\eqref{eq:guarantee} for every lead time up to $\ell_{\max}$. If instead the lead time is random, independent of the units and of known distribution, drawing one lead time $\ell_i$ per calibration unit and using $V_i(\ell_i)$ keeps the pairs (unit, lead time) exchangeable, and Theorem~\ref{thm:main} then bounds the probability of failure before a replacement that arrives after a random lead time.
+\end{remark}
+
 \begin{corollary}[A decision-aware choice keeps the guarantee]\label{cor:da}
 Let $q_0=\lceil (n+1)(1-\alpha_{\max})\rceil$ and let $\hat q\ge q_0$ be any index chosen from the calibration data, for example to minimise an estimated cost. Then $P\bigl(N_{n+1}(V_{(\hat q)})>\ell\bigr)\ge 1-\alpha_{\max}$.
 \end{corollary}
@@ -67,7 +82,11 @@ Under the conditions of Theorem~\ref{thm:main}, let each calibration unit report
 By Lemma~\ref{lem:cens}, $W_i\ge V_i$ for every $i$, so every order statistic satisfies $W_{(q)}\ge V_{(q)}$. By Lemma~\ref{lem:mono} the event for $\hat H_W$ contains the event for $V_{(q)}$, whose probability is at least $1-\alpha$ by Theorem~\ref{thm:main}. No assumption on the censoring mechanism is used, because the comparison is pathwise.
 \end{proof}
 
-In words: treat every censored unit as if it had failed immediately after it was last seen alive. The guarantee survives any censoring mechanism, including informative censoring, at the price of conservatism that grows with how early units are censored. Dropping censored units (complete-case analysis) keeps the guarantee only when censoring is independent of the unit. A useful special case is censoring by an earlier alarm policy: a unit replaced $\ell$ cycles after an alarm at level $H_0$ has $U\le H_0$, so if $H_0$ lies below the target quantile, such units do not move $\hat H_W$ at all (Section~\ref{sec:res-cens}).
+In words: treat every censored unit as if it had failed immediately after it was last seen alive. The guarantee survives any censoring mechanism, including informative censoring, at the price of conservatism that grows with how early units are censored. Dropping censored units (complete-case analysis) keeps the guarantee only when censoring is independent of the unit. Two special cases bracket its value. A unit replaced $\ell$ cycles after an alarm at level $H_0$ has $U\le H_0$; if $H_0$ lies below the target quantile, such units do not move $\hat H_W$ at all, so censoring by an earlier, less conservative alarm is free. Conversely, a unit censored long before its alarm would act has $U$ near the top of the signal's range; if more than about $\alpha n$ units are censored that early, $\hat H_W$ reaches the top of the range and the alarm fires at the first possible cycle. The same mechanism means that a conservative level can never be relaxed from units replaced under it. No procedure can avoid this without assumptions on the censoring: an adversarial mechanism could censor exactly the units with the largest critical levels (Section~\ref{sec:res-cens}).
+
+\begin{remark}[Complete-case calibration]\label{rem:cc}
+If the censoring indicators are independent of the units' data, the uncensored calibration units and the new unit remain exchangeable conditionally on which units are censored, so Theorem~\ref{thm:main} holds with $n$ replaced by the number of uncensored units. Dropping censored units is then valid and usually far less conservative than Theorem~\ref{thm:cens}; under informative censoring it has no guarantee, in either direction.
+\end{remark}
 
 \subsection{Calibration on all training units by cross-fitting}
 
@@ -88,6 +107,25 @@ Let $V^{(k)}_{n+1}$ be the critical level of the new unit under $\mu_{-k}$. By L
 \end{proof}
 
 The bound is loose for small $n$ (with $n=80$ and $K=5$ the finite-$K$ term is about $0.09$), and, as for CV+ intervals~\cite{barber2021}, realised failure rates are usually close to $\alpha$; Section~\ref{sec:res-cost} reports them.
+
+\subsection{Online calibration when the population changes}
+
+When new units come from a population that differs from the calibration units, none of the guarantees above applies. The failure outcome of each unit, however, is observed whether the unit fails or is replaced, so the level can be corrected from the new population's own outcomes, as in adaptive conformal inference~\cite{gibbs2021} and conformal quantile tracking~\cite{angelopoulos2023pid}. Let units arrive in groups $G_1,G_2,\dots$ of at most $g$ units; all units of group $s$ use the level $q_s$, and once their outcomes are known
+\begin{equation}\label{eq:online}
+q_{s+1}=q_s+\eta\sum_{i\in G_s}\bigl(\mathbf 1\{N_i(q_s)\le\ell\}-\alpha\bigr),\qquad \eta>0 .
+\end{equation}
+
+\begin{theorem}[Long-run failure rate for any sequence of units]\label{thm:online}
+Suppose the critical levels of all units lie in an interval $[a,b]$ of width $B$ and $q_1\in[a,b]$. Then for every sequence of units, without any exchangeability or distributional assumption, after $T$ units
+\[
+\Bigl|\frac1T\sum_{i=1}^{T}\mathbf 1\{N_i\le\ell\}-\alpha\Bigr|\ \le\ \frac{B+g\eta}{\eta T}.
+\]
+\end{theorem}
+\begin{proof}
+By Lemma~\ref{lem:crit}, unit $i$ of group $s$ fails iff $V_i>q_s$. We show by induction that $q_s\in[a-g\alpha\eta,\ b+g(1-\alpha)\eta]$. If $q_s>b$, no unit of the group fails and $q_{s+1}=q_s-\eta\alpha|G_s|$, which lies in $[q_s-g\alpha\eta,q_s)$. If $q_s<a$, every unit fails and $q_{s+1}=q_s+\eta(1-\alpha)|G_s|\in(q_s,\,a+g(1-\alpha)\eta]$. If $q_s\in[a,b]$, then $q_{s+1}\in[a-g\alpha\eta,\ b+g(1-\alpha)\eta]$. In every case the claim carries over. Summing~\eqref{eq:online}, $\sum_{i\le T}(\mathbf 1\{N_i\le\ell\}-\alpha)=(q_{S+1}-q_1)/\eta$, and $|q_{S+1}-q_1|\le B+g\eta$ because both lie in the interval above and $q_1\in[a,b]$.
+\end{proof}
+
+Theorem~\ref{thm:online} trades the per-unit guarantee of Theorem~\ref{thm:main} for a deterministic statement about the realised failure rate of the sequence, which holds whatever the population does. The price is that early units of a shifted population may fail before the level has moved, the bound is loose for short sequences, and in a fleet the outcomes of units operated concurrently arrive late, which the group size $g$ accounts for. The step $\eta$ trades speed of adaptation against the variability of the level.
 
 \subsection{What a window score and a per-cycle interval certify}
 

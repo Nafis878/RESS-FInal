@@ -1,0 +1,40 @@
+FD002 rep 0 exit 0
+FD003 rep 0 exit 0 (worker b)
+FD004 rep 0 exit 0
+FD001 rep 0 exit 0 (worker b)
+BATTERY rep 0 exit 0 (worker b)
+PHM08 rep 0 exit 0
+NCMAPSS rep 0 exit 0 (worker b)
+PHM08 rep 0 exit 0 (worker b)
+NCMAPSS rep 0 exit 0
+BATTERY rep 0 exit 0
+FD001 rep 0 exit 0
+FD003 rep 0 exit 0
+FD002 rep 1 exit 0
+FD004 rep 1 exit 0
+FD003 rep 2 exit 0 (worker c)
+PHM08 rep 1 exit 0
+FD001 rep 2 exit 0 (worker c)
+FD002 rep 2 exit 2 (worker e)
+FD004 rep 2 exit 2 (worker e)
+NCMAPSS rep 1 exit 0
+BATTERY rep 2 exit 0 (worker c)
+FD003 rep 1 exit 0 (worker d)
+BATTERY rep 1 exit 0
+FD001 rep 1 exit 0 (worker d)
+NCMAPSS rep 2 exit 0 (worker c)
+FD002 rep 2 exit 0 (worker f)
+FD001 rep 1 exit 0
+FD003 rep 1 exit 0
+FD002 rep 2 exit 0
+PHM08 rep 2 exit 0 (worker c)
+FD004 rep 2 exit 0 (worker f)
+PHM08 rep 2 exit 0 (worker f)
+FD004 rep 2 exit 0
+PHM08 rep 2 exit 0
+NCMAPSS rep 2 exit 0
+BATTERY rep 2 exit 0
+FD001 rep 2 exit 0
+FD003 rep 2 exit 0
+FD004 rep 2 exit 0 (worker c)
+FD002 rep 2 exit 0 (worker c)

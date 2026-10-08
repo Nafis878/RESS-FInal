@@ -1,0 +1,35 @@
+  cv1 rep 0 (42s)
+  cv2 rep 0 (36s)
+  cv3 rep 0 (34s)
+  cv4 rep 0 (35s)
+  cv5 rep 0 (43s)
+  g1 rep 0 (34s)
+/home/user/RESS-FInal/code/run2.py:99: RuntimeWarning: Mean of empty slice
+  mn = np.nanmean(nt, 0)
+  g2 rep 0 (37s)
+/home/user/RESS-FInal/code/run2.py:99: RuntimeWarning: Mean of empty slice
+  mn = np.nanmean(nt, 0)
+  g3 rep 0 (33s)
+BATTERY rep 0 written
+  cv1 rep 1 (58s)
+  cv2 rep 1 (56s)
+  cv3 rep 1 (90s)
+  cv4 rep 1 (102s)
+  cv5 rep 1 (53s)
+  g1 rep 1 (56s)
+  g2 rep 1 (52s)
+/home/user/RESS-FInal/code/run2.py:99: RuntimeWarning: Mean of empty slice
+  mn = np.nanmean(nt, 0)
+  g3 rep 1 (35s)
+BATTERY rep 1 written
+  cv1 rep 2 (60s)
+  cv2 rep 2 (60s)
+  cv3 rep 2 (56s)
+  cv4 rep 2 (55s)
+  cv5 rep 2 (58s)
+  g1 rep 2 (55s)
+  g2 rep 2 (53s)
+/home/user/RESS-FInal/code/run2.py:99: RuntimeWarning: Mean of empty slice
+  mn = np.nanmean(nt, 0)
+  g3 rep 2 (32s)
+BATTERY rep 2 written

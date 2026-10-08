@@ -1,0 +1,11 @@
+  cv1 rep 0 (26s)
+  cv2 rep 0 (24s)
+  cv3 rep 0 (25s)
+  cv4 rep 0 (24s)
+  cv5 rep 0 (25s)
+  g0 rep 0 (26s)
+  g1 rep 0 (25s)
+  g2 rep 0 (26s)
+/home/user/RESS-FInal/code/run2.py:99: RuntimeWarning: Mean of empty slice
+  mn = np.nanmean(nt, 0)
+Terminated

@@ -110,7 +110,81 @@ def metric_m():
     return M, Dd
 
 
+def equal_info():
+    """protocol_v3.md, H9: CNA+-DA against comparators built on the same five fold models"""
+    import glob
+    fs = sorted(glob.glob(os.path.join(C.ROOT, 'results', 'raw3', '*_cf.csv.gz')))
+    if not fs: return None, {}
+    F = pd.concat([pd.read_csv(f) for f in fs], ignore_index=True); B = load('cvplus'); D = load('decisions', RAW)
+    # consistency: CNA+ recomputed in run3 equals run2
+    chk = F[F.policy == 'CNAplus_a0.10_check'].merge(B[B.policy == 'CNAplus_a0.10'], on=['dataset', 'analysis', 'split', 'rep', 'lead', 'rho', 'unit'], suffixes=('', '_2'))
+    consistent = bool(len(chk) and (chk.fail == chk.fail_2).all() and np.allclose(chk.use, chk.use_2))
+    rows, cells = [], []
+    for (ds, an, lead, rho), x in B[(B.rep == 0) & (B.policy == 'CNAplus_DA')].groupby(['dataset', 'analysis', 'lead', 'rho']):
+        if ds not in set(F.dataset): continue
+        base = x.sort_values('unit'); f = F[(F.dataset == ds) & (F.analysis == an) & (F.rep == 0) & (F.lead == lead) & (F.rho == rho)]
+        d = D[(D.dataset == ds) & (D.analysis == an) & (D.rep == 0) & (D.lead == lead) & (D.rho == rho)]
+        pf = d[d.policy == 'perfect'].sort_values('unit'); rp = pf.cost.sum() / pf.use.sum()
+        cells.append(dict(dataset=ds, analysis=an, lead=lead, rho=rho, policy='CNAplus_DA', rel_cost=(base.cost.sum() / base.use.sum()) / rp, failures=int(base.fail.sum()), n=len(base)))
+        for pol in ['STW_cost_1se_CF', 'STW_cost_plain_CF', 'KAM_P1_opt_CF', 'KAM_P1_heur_CF']:
+            o = f[f.policy == pol].sort_values('unit'); assert (o.unit.values == base.unit.values).all()
+            cells.append(dict(dataset=ds, analysis=an, lead=lead, rho=rho, policy=pol, rel_cost=(o.cost.sum() / o.use.sum()) / rp, failures=int(o.fail.sum()), n=len(o)))
+            r, lo, hi = S.boot_ratio(base.cost.values, base.use.values, o.cost.values, o.use.values)
+            rows.append(dict(dataset=ds, analysis=an, lead=lead, rho=rho, comparator=pol, ratio=r, lo=lo, hi=hi, better=hi < 1, worse=lo > 1))
+        a = d[d.policy == 'age'].sort_values('unit')
+        cells.append(dict(dataset=ds, analysis=an, lead=lead, rho=rho, policy='age', rel_cost=(a.cost.sum() / a.use.sum()) / rp, failures=int(a.fail.sum()), n=len(a)))
+    Q = pd.DataFrame(rows); X = pd.DataFrame(cells)
+    X['excess'] = X.rel_cost / X.groupby(['dataset', 'analysis', 'lead', 'rho']).rel_cost.transform('min') - 1
+    Q.to_csv(f'{OUT}/equalinfo_cost_vs.csv', index=False); X.to_csv(f'{OUT}/equalinfo_cost_cells.csv', index=False)
+    summ = []
+    for (ds, an, pol), x in Q.groupby(['dataset', 'analysis', 'comparator']):
+        nb, nw = int(x.better.sum()), int(x.worse.sum())
+        summ.append(dict(dataset=ds, analysis=an, comparator=pol, better=nb, worse=nw, ratio_median=float(x.ratio.median()),
+                         verdict='CNA+-DA cheaper' if nb >= 8 and nw == 0 else ('CNA+-DA dearer' if nw >= 8 and nb == 0 else 'mixed')))
+    Sm = pd.DataFrame(summ); Sm.to_csv(f'{OUT}/equalinfo_cost_summary.csv', index=False)
+    E = X.groupby(['dataset', 'analysis', 'policy']).agg(mean_excess=('excess', 'mean'), max_excess=('excess', 'max'), failures=('failures', 'sum'), units=('n', 'sum')).reset_index()
+    E.to_csv(f'{OUT}/equalinfo_excess.csv', index=False)
+    # descriptive: the same excess-cost table for every repetition (the protocol's decisions use repetition 0)
+    rc = []
+    for rep in sorted(F.rep.unique()):
+        for (ds, an, lead, rho), x in B[(B.rep == rep) & (B.policy == 'CNAplus_DA') & (B.analysis == 'cv')].groupby(['dataset', 'analysis', 'lead', 'rho']):
+            f = F[(F.dataset == ds) & (F.analysis == an) & (F.rep == rep) & (F.lead == lead) & (F.rho == rho)]
+            d = D[(D.dataset == ds) & (D.analysis == an) & (D.rep == rep) & (D.lead == lead) & (D.rho == rho)]
+            if not len(f) or not len(d): continue
+            pf = d[d.policy == 'perfect']; rp = pf.cost.sum() / pf.use.sum()
+            parts = [('CNAplus_DA', x)] + [(p, f[f.policy == p]) for p in ['STW_cost_1se_CF', 'STW_cost_plain_CF', 'KAM_P1_opt_CF', 'KAM_P1_heur_CF']] + [('age', d[d.policy == 'age'])]
+            for pol, o in parts:
+                rc.append(dict(dataset=ds, rep=rep, lead=lead, rho=rho, policy=pol, rel_cost=(o.cost.sum() / o.use.sum()) / rp))
+    if rc:
+        Xr = pd.DataFrame(rc); Xr['excess'] = Xr.rel_cost / Xr.groupby(['dataset', 'rep', 'lead', 'rho']).rel_cost.transform('min') - 1
+        Xr.groupby(['dataset', 'rep', 'policy']).excess.mean().unstack('policy').to_csv(f'{OUT}/equalinfo_excess_reps.csv')
+    # failure rates of the comparators at the primary lead (rho = 10; all repetitions)
+    fr = F[(F.rho == 10) & (F.analysis == 'cv')]
+    fr = fr[[r.lead == lp(r.dataset) for r in fr.itertuples()]].groupby(['dataset', 'policy']).fail.mean().unstack()
+    fr.to_csv(f'{OUT}/equalinfo_failure_rates.csv')
+    cv = Sm[Sm.analysis == 'cv']
+    return Sm, dict(H9=dict(consistent_with_run2=consistent, verdicts=cv[['dataset', 'comparator', 'better', 'worse', 'verdict']].to_dict('records')))
+
+
+def online():
+    """protocol_v4.md, H10: online calibration of the level under batch shift"""
+    import glob
+    fs = sorted(glob.glob(os.path.join(C.ROOT, 'results', 'raw4', '*_online.csv.gz')))
+    if not fs: return None, {}
+    O = pd.concat([pd.read_csv(f) for f in fs], ignore_index=True)
+    O = O[[r.lead == lp(r.dataset) for r in O.itertuples()]]
+    g = O.groupby(['dataset', 'analysis', 'split', 'rep', 'eta_frac', 'group']).agg(
+        T=('T', 'first'), fail=('fail', 'mean'), fail_p95=('fail', lambda x: float(np.quantile(x, 0.95))), fail_second_half=('fail_second_half', 'mean'),
+        static_fail=('static_fail', 'first'), notice=('notice', 'mean'), bound=('bound', 'first'), q1=('q1', 'first'), q_final=('q_final', 'mean')).reset_index()
+    g.to_csv(f'{OUT}/online.csv', index=False)
+    h = g[(g.dataset == 'BATTERY') & (g.analysis == 'group') & (g.rep == 0) & (g.eta_frac == 0.10) & (g.group == 1)].copy()
+    h['within_bound'] = h.fail <= 0.10 + h.bound
+    h['better_than_static'] = (h.static_fail <= 0.10) | (h.fail < h.static_fail)
+    return g, dict(H10=dict(table=h[['split', 'T', 'fail', 'fail_second_half', 'static_fail', 'notice', 'bound']].round(4).to_dict('records'),
+                            supported=bool(h.within_bound.all() and h.better_than_static.all())))
+
+
 if __name__ == '__main__':
-    g, d6 = censoring(); V, Sm, E, d7 = cvplus(); M, Dd = metric_m()
-    dec = {**d6, **d7}; json.dump(dec, open(f'{OUT}/hypotheses_v2.json', 'w'), indent=1, default=float)
-    print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk != 'table'} for k, v in dec.items()}, indent=1, default=float))
+    g, d6 = censoring(); V, Sm, E, d7 = cvplus(); M, Dd = metric_m(); S9, d9 = equal_info(); O4, d10 = online()
+    dec = {**d6, **d7, **d9, **d10}; json.dump(dec, open(f'{OUT}/hypotheses_v2.json', 'w'), indent=1, default=float)
+    print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk not in ('table', 'verdicts')} for k, v in dec.items()}, indent=1, default=float))

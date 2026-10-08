@@ -1,0 +1,2 @@
+BATTERY exit 0
+NCMAPSS exit 0

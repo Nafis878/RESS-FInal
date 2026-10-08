@@ -6,11 +6,11 @@ Table~\ref{tab:recipe} turns the results into a procedure. Its steps are the one
 \toprule
 & Step and reason \\
 \midrule
-1 & State the lead time $\ell$ and the tolerated probability $\alpha$ of failure before the planned replacement; check $n\ge1/\alpha-1$ calibration units are available (Proposition~\ref{prop:cost}). \\
+1 & State the lead time $\ell$ and the tolerated probability $\alpha$ of failure before the planned replacement; check $n\ge1/\alpha-1$ calibration units are available (Proposition~\ref{prop:cost}); if the requirement must hold for the calibrated alarm itself with confidence $1-\delta$, choose the order statistic by Corollary~\ref{cor:pac}. \\
 2 & Fix the signal and trigger (smoothing, debounce, cap) before looking at the calibration units, or select them on units not used for calibration. \\
-3 & Collect calibration units from the population in which the alarm will run. Use replaced or still-running units as censored units, their critical level computed as if they had failed when last seen alive (Theorem~\ref{thm:cens}). \\
+3 & Collect calibration units from the population in which the alarm will run. Units replaced late in life, for example by an earlier alarm, can serve as censored calibration units, their critical level computed as if they had failed immediately after they were last seen alive (Theorem~\ref{thm:cens}); units censored early in life carry almost no information. \\
 4 & Compute critical levels (Lemma~\ref{lem:crit}) and set $\hat H$ to their conformal quantile; with a cost ratio, choose among admissible order statistics (Corollary~\ref{cor:da}). \\
-5 & When the population changes (new batch, campaign or operating regime), recalibrate on units of the new population, starting from a conservative interim level; do not carry a calibrated level across populations. \\
+5 & When the population changes (new batch, campaign or operating regime), do not carry a calibrated level across: update it online from the new units' outcomes (Theorem~\ref{thm:online}), or recalibrate on units of the new population that were run close to failure. \\
 6 & Report the failure rate with its interval, the notice given, and the number of calibration units the claim rests on; do not report interval coverage or a window score as alarm reliability. \\
 \bottomrule
 \end{tabular}

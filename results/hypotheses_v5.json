@@ -1,0 +1,85 @@
+{
+ "implementation_check": {
+  "PHM08": true,
+  "FD001": true,
+  "FD002": true,
+  "FD003": true,
+  "FD004": true,
+  "NCMAPSS": true,
+  "BATTERY": true
+ },
+ "H11": {
+  "supported": true,
+  "smallest_adjusted_p": 0.43257501305130336,
+  "rates": {
+   "RF/BATTERY": 0.0894,
+   "RF/FD001": 0.05,
+   "RF/FD002": 0.0769,
+   "RF/FD003": 0.17,
+   "RF/FD004": 0.0924,
+   "RF/NCMAPSS": 0.0707,
+   "RF/PHM08": 0.1101,
+   "RIDGE/BATTERY": 0.0976,
+   "RIDGE/FD001": 0.08,
+   "RIDGE/FD002": 0.0731,
+   "RIDGE/FD003": 0.09,
+   "RIDGE/FD004": 0.0884,
+   "RIDGE/NCMAPSS": 0.101,
+   "RIDGE/PHM08": 0.1284,
+   "WMLP/BATTERY": 0.1138,
+   "WMLP/FD001": 0.04,
+   "WMLP/FD002": 0.0692,
+   "WMLP/FD003": 0.08,
+   "WMLP/FD004": 0.1205,
+   "WMLP/NCMAPSS": 0.101,
+   "WMLP/PHM08": 0.1376
+  }
+ },
+ "H12": {
+  "significant_datasets_per_learner": {
+   "RF": 7,
+   "RIDGE": 7,
+   "WMLP": 5
+  },
+  "supported": true,
+  "rates": {
+   "RF/BATTERY": 0.6992,
+   "RF/FD001": 0.41,
+   "RF/FD002": 0.4077,
+   "RF/FD003": 0.56,
+   "RF/FD004": 0.5582,
+   "RF/NCMAPSS": 0.202,
+   "RF/PHM08": 0.4908,
+   "RIDGE/BATTERY": 0.7073,
+   "RIDGE/FD001": 0.5,
+   "RIDGE/FD002": 0.4692,
+   "RIDGE/FD003": 0.52,
+   "RIDGE/FD004": 0.6145,
+   "RIDGE/NCMAPSS": 0.2626,
+   "RIDGE/PHM08": 0.5459,
+   "WMLP/BATTERY": 0.2846,
+   "WMLP/FD001": 0.13,
+   "WMLP/FD002": 0.2462,
+   "WMLP/FD003": 0.24,
+   "WMLP/FD004": 0.3815,
+   "WMLP/NCMAPSS": 0.0606,
+   "WMLP/PHM08": 0.3303
+  }
+ },
+ "H13": {
+  "supported": true,
+  "pooled_rate_range": [
+   0.08703220191470844,
+   0.11053089643167972
+  ],
+  "smallest_adjusted_p": 1.0,
+  "notice_engines_range": [
+   17.4150390625,
+   18.11219512195122
+  ],
+  "notice_battery_range": [
+   41.16393442622951,
+   48.19834710743802
+  ]
+ }
+}

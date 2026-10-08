@@ -81,8 +81,22 @@ def test_tango():
     assert abs(hi - z * z / (50 + z * z)) < 1e-6 and abs(lo + hi) < 1e-9
 
 
+def test_lead_monotone_and_conditional(rng):
+    """Remark 1: V is non-decreasing in the lead time. Corollary 1: for continuous V the conditional failure
+    probability of the conformal level, 1 - G(V_(q)), follows Beta(n + 1 - q, q) (checked with V ~ U(0, 1))."""
+    from scipy.stats import beta, kstest
+    for _ in range(200):
+        r, s = random_unit(rng); rm = C.debounced_running_min(s, int(rng.integers(1, 4)))
+        Vs = np.array([C.critical_level(rm, r, lead) for lead in range(0, 40, 3)])
+        assert np.all(np.diff(Vs) >= 0), Vs
+    n, a = 32, 0.10; q = int(np.ceil((n + 1) * (1 - a)))
+    pis = np.array([1 - C.conformal_level(rng.uniform(size=n), a) for _ in range(20000)])
+    assert kstest(pis, beta(n + 1 - q, q).cdf).pvalue > 0.001
+    assert abs(pis.mean() - (n + 1 - q) / (n + 1)) < 0.003
+
+
 if __name__ == '__main__':
     rng = np.random.default_rng(0)
-    test_first_alarm_and_critical_level(rng); test_theorem1(rng); test_causal_features(rng); test_censoring_bound(rng); test_tango()
+    test_first_alarm_and_critical_level(rng); test_theorem1(rng); test_causal_features(rng); test_censoring_bound(rng); test_tango(); test_lead_monotone_and_conditional(rng)
     print('conformal failure rate (alpha 0.10, n 30):', round(test_conformal_guarantee(rng), 4))
     print('ALL TESTS PASSED')

@@ -1,0 +1,11 @@
+BATTERY rep 0 exists
+  cv1 rep 1 (31s)
+  cv2 rep 1 (30s)
+  cv3 rep 1 (30s)
+  cv4 rep 1 (30s)
+  cv5 rep 1 (30s)
+  g1 rep 1 (31s)
+  g2 rep 1 (30s)
+  g3 rep 1 (27s)
+BATTERY rep 1 written
+BATTERY rep 2 exists

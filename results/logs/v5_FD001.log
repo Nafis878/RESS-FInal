@@ -1,0 +1,36 @@
+  cv1 GBM 7s
+  cv1 RIDGE 8s
+  cv1 RF 36s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv1 WMLP 43s
+  cv1 settings 65s
+  cv2 GBM 7s
+  cv2 RIDGE 8s
+  cv2 RF 35s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv2 WMLP 42s
+  cv2 settings 63s
+  cv3 GBM 8s
+  cv3 RIDGE 8s
+  cv3 RF 36s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv3 WMLP 42s
+  cv3 settings 64s
+  cv4 GBM 7s
+  cv4 RIDGE 8s
+  cv4 RF 37s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv4 WMLP 45s
+  cv4 settings 66s
+  cv5 GBM 8s
+  cv5 RIDGE 8s
+  cv5 RF 36s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv5 WMLP 43s
+  cv5 settings 66s
+written /home/user/RESS-FInal/results/raw5/FD001_robust.csv.gz 38700

@@ -8,6 +8,8 @@ Table~\ref{tab:validity} and Fig.~\ref{fig:validity} give the failure-before-rep
 
 The interval-calibrated alarm on the same signal and trigger did not deliver its nominal level. Calibrated with residuals over all rows (LB-all), the lower-bound alarm at nominal 10\,\% failed on 18.2\,\% (N-CMAPSS) to 69.6\,\% (battery) of units, 46.6\,\% pooled, with $p<0.005$ on every dataset (H2 supported, 7 of 7). Rows far from failure, where the capped target makes residuals small, dominate the pooled residual quantile, so the bound is tight far from failure and loose at the stopping time. Restricting the residuals to rows with $r_t\le c$ (LB-near) brought the rate close to nominal on six datasets (4.0--8.6\,\%) but not on N-CMAPSS (15.2\,\%, and 17.8\,\% at the longest lead time), and its level depends on how the evaluator chooses the rows. The guarantee costs notice: at $\alpha=0.10$ CNA alarms left a median of 15--17 engine cycles at a lead time of 10, against 11--12 for LB-all; on the battery cells 43 cycles at a lead time of 30.
 
+Corollary~\ref{cor:pac} predicts more than the mean. Across the 105 calibration sets at the primary lead time (seven datasets, five folds, three repetitions), the number of failures among the test units of a fold followed the Beta-binomial law that the corollary implies: the randomised probability integral transforms were consistent with uniformity (Kolmogorov--Smirnov $p=0.93$ at $\alpha=0.10$; 0.53 and 0.70 at 0.05 and 0.20), the variance of the fold-level failure rate at $\alpha=0.10$ was 0.0049 against 0.0048 predicted, and 103 of the 105 rates lay inside the 90\,\% predictive band (Fig.~\ref{fig:conditional}). For folds of 20--25 units the band reaches 25--26\,\%: a valid 10\,\% alarm can show more than twice its nominal rate on a test of that size. This check was not in the protocols, and folds of one repetition share calibration units, so the $p$-values are descriptive.
+
 \begin{table*}[t]\footnotesize\setlength{\tabcolsep}{4.5pt}
 \caption{Failure before the planned replacement at the primary lead time (10 cycles; battery 30 cycles), five-fold cross-validation, mean of three repetitions. Second column: repetition~0 for CNA at $\alpha=0.10$ (failures; rate; Clopper--Pearson 95\,\% interval). Last column: median notice at the alarm (cycles), CNA 0.10 / LB-all 0.10.}\label{tab:validity}
 \resizebox{\textwidth}{!}{%
@@ -30,3 +32,8 @@ Battery (123) & 15 (0.122; 0.070--0.193) & 0.033 & 0.106 & 0.198 & 0.011 & 0.696
 \includegraphics[width=0.95\textwidth]{figures/Fig2_validity.pdf}
 \caption{Failure before the planned replacement at the primary lead time (10 cycles; battery 30) for the conformal notice alarm (CNA) and per-cycle split-conformal lower-bound alarms on the same signal and trigger, at three nominal levels (dashed). Dots: the three repetitions; bars: their mean. Five-fold cross-validation.}\label{fig:validity}
 \end{figure*}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{figures/Fig3_conditional.pdf}
+\caption{Failure rate of CNA ($\alpha=0.10$, primary lead time) in each of the 105 test folds (five folds, three repetitions per dataset) against the Beta-binomial law of Corollary~\ref{cor:pac}: 90\,\% predictive band for the median fold size (grey) and its mean $(n+1-q)/(n+1)$ (line).}\label{fig:conditional}
+\end{figure}

@@ -1,0 +1,312 @@
+{
+ "H6": {
+  "cells": 49,
+  "ok": 49,
+  "worst": 0.14,
+  "supported": true,
+  "failing": []
+ },
+ "H7a": {
+  "table": [
+   {
+    "dataset": "BATTERY",
+    "lead": 30,
+    "n": 123,
+    "failures": 7,
+    "rate": 0.0569,
+    "tol": 0.1541
+   },
+   {
+    "dataset": "FD001",
+    "lead": 10,
+    "n": 100,
+    "failures": 6,
+    "rate": 0.06,
+    "tol": 0.16
+   },
+   {
+    "dataset": "FD002",
+    "lead": 10,
+    "n": 260,
+    "failures": 10,
+    "rate": 0.0385,
+    "tol": 0.1372
+   },
+   {
+    "dataset": "FD003",
+    "lead": 10,
+    "n": 100,
+    "failures": 7,
+    "rate": 0.07,
+    "tol": 0.16
+   },
+   {
+    "dataset": "FD004",
+    "lead": 10,
+    "n": 249,
+    "failures": 22,
+    "rate": 0.0884,
+    "tol": 0.138
+   },
+   {
+    "dataset": "NCMAPSS",
+    "lead": 10,
+    "n": 99,
+    "failures": 10,
+    "rate": 0.101,
+    "tol": 0.1603
+   },
+   {
+    "dataset": "PHM08",
+    "lead": 10,
+    "n": 218,
+    "failures": 16,
+    "rate": 0.0734,
+    "tol": 0.1406
+   }
+  ],
+  "supported": true
+ },
+ "H7b": {
+  "cheaper_than_split_on": [
+   "FD001",
+   "FD003",
+   "FD004"
+  ],
+  "dearer_than_split_on": [],
+  "supported": false
+ },
+ "H9": {
+  "consistent_with_run2": true,
+  "verdicts": [
+   {
+    "dataset": "BATTERY",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 11,
+    "worse": 3,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "BATTERY",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 11,
+    "worse": 2,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "BATTERY",
+    "comparator": "STW_cost_1se_CF",
+    "better": 16,
+    "worse": 0,
+    "verdict": "CNA+-DA cheaper"
+   },
+   {
+    "dataset": "BATTERY",
+    "comparator": "STW_cost_plain_CF",
+    "better": 2,
+    "worse": 11,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD001",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 10,
+    "worse": 1,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD001",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 3,
+    "worse": 0,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD001",
+    "comparator": "STW_cost_1se_CF",
+    "better": 4,
+    "worse": 0,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD001",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 12,
+    "verdict": "CNA+-DA dearer"
+   },
+   {
+    "dataset": "FD002",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 13,
+    "worse": 0,
+    "verdict": "CNA+-DA cheaper"
+   },
+   {
+    "dataset": "FD002",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 4,
+    "worse": 5,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD002",
+    "comparator": "STW_cost_1se_CF",
+    "better": 10,
+    "worse": 4,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD002",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 4,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD003",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 11,
+    "worse": 1,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD003",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 11,
+    "worse": 1,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD003",
+    "comparator": "STW_cost_1se_CF",
+    "better": 4,
+    "worse": 0,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD003",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 10,
+    "verdict": "CNA+-DA dearer"
+   },
+   {
+    "dataset": "FD004",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 13,
+    "worse": 0,
+    "verdict": "CNA+-DA cheaper"
+   },
+   {
+    "dataset": "FD004",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 2,
+    "worse": 7,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "FD004",
+    "comparator": "STW_cost_1se_CF",
+    "better": 8,
+    "worse": 0,
+    "verdict": "CNA+-DA cheaper"
+   },
+   {
+    "dataset": "FD004",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 7,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "NCMAPSS",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 12,
+    "worse": 1,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "NCMAPSS",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 1,
+    "worse": 3,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "NCMAPSS",
+    "comparator": "STW_cost_1se_CF",
+    "better": 0,
+    "worse": 3,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "NCMAPSS",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 1,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "PHM08",
+    "comparator": "KAM_P1_heur_CF",
+    "better": 11,
+    "worse": 0,
+    "verdict": "CNA+-DA cheaper"
+   },
+   {
+    "dataset": "PHM08",
+    "comparator": "KAM_P1_opt_CF",
+    "better": 0,
+    "worse": 0,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "PHM08",
+    "comparator": "STW_cost_1se_CF",
+    "better": 0,
+    "worse": 0,
+    "verdict": "mixed"
+   },
+   {
+    "dataset": "PHM08",
+    "comparator": "STW_cost_plain_CF",
+    "better": 0,
+    "worse": 16,
+    "verdict": "CNA+-DA dearer"
+   }
+  ]
+ },
+ "H10": {
+  "table": [
+   {
+    "split": "g1",
+    "T": 36,
+    "fail": 0.0854,
+    "fail_second_half": 0.1047,
+    "static_fail": 0.0,
+    "notice": 52.3422,
+    "bound": 0.0965
+   },
+   {
+    "split": "g2",
+    "T": 43,
+    "fail": 0.1269,
+    "fail_second_half": 0.0964,
+    "static_fail": 0.7674,
+    "notice": 45.4172,
+    "bound": 0.1155
+   },
+   {
+    "split": "g3",
+    "T": 44,
+    "fail": 0.1323,
+    "fail_second_half": 0.1048,
+    "static_fail": 0.5909,
+    "notice": 56.4096,
+    "bound": 0.0832
+   }
+  ],
+  "supported": true
+ }
+}

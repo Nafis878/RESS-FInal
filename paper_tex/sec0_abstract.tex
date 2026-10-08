@@ -1,6 +1,13 @@
 \begin{abstract}
-Stub.
+An end-of-life alarm must not let a unit fail before the replacement the alarm scheduled. Conformal prediction gives remaining-useful-life intervals with distribution-free coverage, but an alarm acts at a data-dependent stopping time, where per-cycle coverage does not apply. We calibrate the alarm itself. For a debounced threshold trigger on any causal signal, each calibration unit has one critical level, the lowest warning level that would still have left the lead time, and the conformal quantile of these levels guarantees that a new exchangeable unit is replaced before failure with probability at least $1-\alpha$. Treating censored units as failed just after they were last seen alive keeps the guarantee under any censoring; it has a training-conditional form; cross-fitting calibrates on all training units; $n$ units cannot certify a failure probability below $1/(n+1)$; and an online update bounds the long-run failure rate for any sequence of units. Under protocols hashed in advance, on PHM08, C-MAPSS FD001--FD004, N-CMAPSS and 123 lithium-ion cells, failure rates were 3.8, 9.3 and 19.4\,\% at nominal 5, 10 and 20\,\%, whereas per-cycle conformal lower bounds on the same signal failed on 18--70\,\% of units at nominal 10\,\% (6--71\,\% with three other learners). Censoring by an earlier alarm cost nothing; early censoring made it uninformative. With cross-fitting, certification cost about as much as the best uncertified rules on the same models. Across battery batches a calibrated level failed on 61--74\,\% of cells; online updating from the new batch's outcomes brought this to about 13\,\% without pilot failures.
 \end{abstract}
+
 \begin{keywords}
-A \sep B
+Predictive maintenance \sep
+Remaining useful life \sep
+End-of-life alarm \sep
+Conformal prediction \sep
+Censored data \sep
+Lead time \sep
+Lithium-ion battery
 \end{keywords}

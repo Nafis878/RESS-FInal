@@ -27,9 +27,9 @@ def fig_censoring():
         ax[1].plot(g.pi, g.nr, ls, color=col, marker=mk, ms=4, label=lab)
     o = G[G.method == 'oracle'].fail.mean(); ax[0].plot([0], [o], 'D', color=INK, ms=5, label='no censoring')
     ax[0].axhline(0.10, color=INK, ls='--', lw=0.9); ax[0].set_xlabel('fraction of calibration units censored'); ax[0].set_ylabel('failure before replacement')
-    ax[0].set_title('(a) validity, α = 0.10', fontsize=8, loc='left'); ax[0].set_xticks([0, 0.25, 0.5, 0.75])
+    ax[0].set_title('(a) validity (α = 0.10)', fontsize=8, loc='left'); ax[0].set_xticks([0, 0.25, 0.5, 0.75])
     ax[1].set_yscale('log'); ax[1].set_xlabel('fraction of calibration units censored'); ax[1].set_ylabel('notice / notice without censoring')
-    ax[1].set_title('(b) price: notice (median over datasets)', fontsize=8, loc='left'); ax[1].set_xticks([0.25, 0.5, 0.75])
+    ax[1].set_title('(b) notice vs. no censoring', fontsize=8, loc='left'); ax[1].set_xticks([0.25, 0.5, 0.75])
     ax[1].yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%g'))
     P = G[G.mechanism == 'policy']
     for j, meth in enumerate(['censored_as_failure', 'complete_case']):
@@ -39,9 +39,9 @@ def fig_censoring():
     o = G[G.method == 'oracle'].groupby('dataset').fail.mean().reindex(DS)
     ax[2].plot(np.arange(len(DS)), o.values, '_', color=INK, ms=9, mew=1.5, label='no censoring')
     ax[2].axhline(0.10, color=INK, ls='--', lw=0.9); ax[2].set_xticks(range(len(DS))); ax[2].set_xticklabels([DSL.get(d, d) for d in DS], rotation=55, ha='right', fontsize=6.5)
-    ax[2].set_title('(c) censored by an earlier alarm', fontsize=8, loc='left'); ax[2].set_ylabel('failure before replacement')
+    ax[2].set_title('(c) history under an earlier alarm', fontsize=8, loc='left'); ax[2].set_ylabel('failure before replacement')
     h, l = ax[0].get_legend_handles_labels(); fig.legend(h, l, loc='lower center', ncol=3, fontsize=6.3, bbox_to_anchor=(0.36, -0.2))
-    ax[2].legend(fontsize=6.2, loc='upper left')
+    ax[2].legend(fontsize=6.2, loc='upper center', bbox_to_anchor=(0.5, -0.36), ncol=1)
     save(fig, 'Fig6_censoring')
 
 
@@ -55,22 +55,32 @@ def fig_cvplus_m():
         g = g[[r.lead == lp(r.dataset) for r in g.itertuples()]].groupby('dataset').rate.mean().reindex(DS)
         ax[0].plot(x + (j - 0.5) * 0.3, g.values, 'o', color=col, ms=4.5, mec='white', label=lab)
     ax[0].axhline(0.10, color=INK, ls='--', lw=0.9); ax[0].set_xticks(x); ax[0].set_xticklabels([DSL.get(d, d) for d in DS], rotation=55, ha='right', fontsize=6.5)
-    ax[0].set_ylabel('failure before replacement'); ax[0].set_title('(a) α = 0.10, primary lead time', fontsize=8, loc='left'); ax[0].legend(fontsize=6.3, loc='upper left')
+    ax[0].set_ylabel('failure before replacement'); ax[0].set_title('(a) validity (α = 0.10)', fontsize=8, loc='left'); ax[0].legend(fontsize=6.3, loc='upper center', bbox_to_anchor=(0.5, -0.32))
     e = E[E.analysis == 'cv']
-    for j, (pol, lab, col) in enumerate([('CNA_DA', 'CNA-DA (split)', CAT[0]), ('CNAplus_DA', 'CNA+-DA (cross-fitted)', CAT[2]), ('STW_cost_1se', 'STW cost-tuned 1-SE', CAT[1])]):
-        g = e[e.policy == pol].set_index('dataset').reindex(DS)
-        ax[1].bar(x + (j - 1) * 0.27, 100 * g.mean_excess.values, 0.26, color=col, label=lab)
+    E3 = pd.read_csv(f'{RES}/equalinfo_excess.csv') if os.path.exists(f'{RES}/equalinfo_excess.csv') else None
+    e3 = E3[E3.analysis == 'cv']
+    bars = [(e3, 'CNAplus_DA', 'CNA+-DA (certified)', CAT[2]), (e3, 'STW_cost_1se_CF', 'STW cost-tuned, 1-SE', CAT[1]),
+            (e3, 'STW_cost_plain_CF', 'STW cost-tuned, plain', CAT[3]), (e3, 'KAM_P1_opt_CF', 'Kamariotis P1, optimised', CAT[6])]
+    w = 0.8 / len(bars)
+    Xr = pd.read_csv(f'{RES}/equalinfo_excess_reps.csv') if os.path.exists(f'{RES}/equalinfo_excess_reps.csv') else None
+    for j, (src, pol, lab, col) in enumerate(bars):
+        g = src[src.policy == pol].set_index('dataset').reindex(DS); xx = x + (j - (len(bars) - 1) / 2) * w
+        ax[1].bar(xx, 100 * g.mean_excess.values, w * 0.95, color=col, label=lab)
+        if Xr is not None:                                   # range over the three repetitions (bars: repetition 0)
+            r = Xr.groupby('dataset')[pol].agg(['min', 'max']).reindex(DS)
+            ax[1].vlines(xx, 100 * r['min'].values, 100 * r['max'].values, color=INK2, lw=0.7)
     ax[1].set_xticks(x); ax[1].set_xticklabels([DSL.get(d, d) for d in DS], rotation=55, ha='right', fontsize=6.5); ax[1].set_axisbelow(True)
-    ax[1].set_ylabel('mean excess over cheapest (%)'); ax[1].set_title('(b) cost, 16 cells per dataset', fontsize=8, loc='left'); ax[1].legend(fontsize=6.0, loc='upper left')
+    ax[1].set_ylabel('mean excess over cheapest (%)'); ax[1].set_title('(b) cost, same five fold models', fontsize=8, loc='left')
+    ax[1].legend(fontsize=6.0, loc='upper center', bbox_to_anchor=(0.5, -0.32))
     m = M[M.ratio == 0.1]; dsm = ['PHM08', 'FD001', 'FD002', 'FD003', 'FD004']
-    pols = [('CNA_DA', 'CNA-DA', CAT[0]), ('KAM_P1_opt', 'Kamariotis P1, optimised', CAT[6]), ('KAM_P1_heur', 'Kamariotis P1, p = c_p/c_c', CAT[4]),
+    pols = [('CNA_DA', 'CNA-DA', CAT[0]), ('KAM_P1_opt', 'Kamariotis P1, optimised', CAT[6]), ('KAM_P1_heur', r'Kamariotis P1, $p = c_p/c_c$', CAT[4]),
             ('STW_cost_1se', 'STW 1-SE', CAT[1]), ('CNA_a0.05', 'CNA, α = 0.05', CAT[2])]
     for j, (pol, lab, col) in enumerate(pols):
         g = m[m.policy == pol].set_index('dataset').reindex(dsm); xx = np.arange(len(dsm)) + (j - 2) * 0.15
         ax[2].errorbar(xx, g.M_pct, yerr=[g.M_pct - g.lo, g.hi - g.M_pct], fmt='o', color=col, ms=3.5, lw=1, capsize=0, label=lab)
-    ax[2].set_xticks(range(len(dsm))); ax[2].set_xticklabels(dsm, rotation=55, ha='right', fontsize=6.5); ax[2].set_yscale('symlog', linthresh=10)
+    ax[2].set_xticks(range(len(dsm))); ax[2].set_xticklabels(dsm, rotation=55, ha='right', fontsize=6.5); ax[2].set_yscale('log'); ax[2].set_ylim(2, 200)
     ax[2].yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%g'))
-    ax[2].set_ylabel('metric M (%)'); ax[2].set_title('(c) setting of Kamariotis et al.', fontsize=8, loc='left'); ax[2].legend(fontsize=5.8, loc='upper left', ncol=1)
+    ax[2].set_ylabel('metric M (%)'); ax[2].set_title(r'(c) metric $M$, $c_p/c_c = 0.1$', fontsize=8, loc='left'); ax[2].legend(fontsize=5.8, loc='upper center', bbox_to_anchor=(0.5, -0.32), ncol=1)
     save(fig, 'Fig7_cvplus_M')
 
 

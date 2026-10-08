@@ -1,0 +1,27 @@
+{
+ "H6": {
+  "cells": 49,
+  "ok": 49,
+  "worst": 0.14,
+  "supported": true,
+  "failing": []
+ },
+ "H7a": {
+  "supported": true
+ },
+ "H7b": {
+  "cheaper_than_split_on": [
+   "FD001",
+   "FD003",
+   "FD004"
+  ],
+  "dearer_than_split_on": [],
+  "supported": false
+ },
+ "H9": {
+  "consistent_with_run2": true
+ },
+ "H10": {
+  "supported": true
+ }
+}

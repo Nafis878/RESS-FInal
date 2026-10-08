@@ -121,31 +121,33 @@ def fig_cost():
 # ---------------------------------------------------------------------------------------------- Fig. 5 transfer
 def fig_transfer():
     T = pd.read_csv(f'{RES}/transfer_groups.csv'); Pp = pd.read_csv(f'{RES}/pilot_summary.csv')
-    b = T[(T.dataset == 'BATTERY') & (T.policy.isin(['CNA_a0.10', 'CNAtrend_a0.10']))]
-    fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.8), gridspec_kw=dict(wspace=0.3))
-    for j, (sig, lab) in enumerate([('CNA', 'GBM signal'), ('CNAtrend', 'capacity-trend signal')]):
-        for i, batch in enumerate(['g1', 'g2', 'g3']):
-            x = i + (j - 0.5) * 0.36
-            g = b[(b.policy == f'{sig}_a0.10') & (b.split == batch) & (b.lead == 30)]
-            ax[0].plot([x - 0.05] * len(g), g.rate, 'o', color=CAT[j], ms=4, mec='white', label=f'{lab}, calibrated on other batches' if i == 0 else None)
-            q = Pp[(Pp.signal == sig) & (Pp.split == batch) & (Pp.lead == 30) & (Pp.alpha == 0.10) & (Pp.m == 10)]
-            ax[0].plot([x + 0.08] * len(q), q.fail_mean, 'D', color=CAT[j], ms=3.5, mfc='white', label=f'{lab}, 10 pilot cells of the new batch' if i == 0 else None)
-    ax[0].axhline(0.10, color=INK, ls='--', lw=0.9); ax[0].set_xticks(range(3)); ax[0].set_xticklabels(['batch 1', 'batch 2', 'batch 3']); ax[0].set_xlabel('held-out batch', fontsize=7)
-    ax[0].set_ylabel('failure before replacement'); ax[0].set_title('(a) α = 0.10, lead time 30 cycles', fontsize=8, loc='left')
-    ax[0].legend(fontsize=6.2, loc='upper center', bbox_to_anchor=(0.5, -0.2), ncol=1)
+    O = pd.read_csv(f'{RES}/online.csv') if os.path.exists(f'{RES}/online.csv') else None
     DR = pd.read_csv(f'{RES}/raw/BATTERY_decisions.csv.gz'); DR = DR[(DR.analysis == 'group') & (DR.policy == 'CNA_a0.10') & (DR.lead == 30) & (DR.rho == 10)]
     tg = T[(T.dataset == 'BATTERY') & (T.policy == 'CNA_a0.10') & (T.lead == 30)]
+    fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.9), gridspec_kw=dict(wspace=0.3))
+    meths = [('static', 'level of the other batches (static)', 'o', CAT[1]), ('pilot', '10 pilot cells run to failure', 'D', CAT[0]),
+             ('online', 'online, no pilot (η = 0.1 cap, g = 1)', '^', CAT[2]), ('online5', 'online, groups of 5 (g = 5)', 'v', CAT[5])]
     for i, batch in enumerate(['g1', 'g2', 'g3']):
+        vals = {}
         g = tg[tg.split == batch]; dd = DR[(DR.split == batch) & ~DR.fail]
-        nm = dd.groupby('rep').notice.mean().mean(); ax[1].plot(g.rate.mean(), nm, 'o', color=CAT[i], ms=6, mec='white')
-        for m, mk in ((10, 'D'), (20, 's')):
-            q = Pp[(Pp.signal == 'CNA') & (Pp.split == batch) & (Pp.lead == 30) & (Pp.alpha == 0.10) & (Pp.m == m)]
-            ax[1].plot(q.fail_mean.mean(), q.notice_mean.mean(), mk, color=CAT[i], ms=5, mfc='white')
-        ax[1].annotate(f'batch {batch[1]}', (g.rate.mean(), nm), fontsize=6.5, color=INK2, xytext=(4, 3), textcoords='offset points')
-    ax[1].plot([], [], 'o', color=INK2, label='calibrated on other batches'); ax[1].plot([], [], 'D', color=INK2, mfc='white', label='10 pilot cells of the new batch')
-    ax[1].plot([], [], 's', color=INK2, mfc='white', label='20 pilot cells of the new batch')
-    ax[1].axvline(0.10, color=INK, ls='--', lw=0.9); ax[1].set_xlabel('failure before replacement'); ax[1].set_ylabel('mean notice, planned\nreplacements (cycles)')
-    ax[1].set_title('(b) failure vs notice, GBM signal', fontsize=8, loc='left'); ax[1].legend(fontsize=6.2, loc='upper center', bbox_to_anchor=(0.5, -0.18))
+        vals['static'] = (g.rate.mean(), dd.groupby('rep').notice.mean().mean())
+        q = Pp[(Pp.signal == 'CNA') & (Pp.split == batch) & (Pp.lead == 30) & (Pp.alpha == 0.10) & (Pp.m == 10) & (Pp.dataset == 'BATTERY')]
+        vals['pilot'] = (q.fail_mean.mean(), q.notice_mean.mean())
+        if O is not None:
+            for key, gg in (('online', 1), ('online5', 5)):
+                o = O[(O.dataset == 'BATTERY') & (O.split == batch) & (O.eta_frac == 0.10) & (O.group == gg)]
+                vals[key] = (o.fail.mean(), o.notice.mean())
+        for j, (key, lab, mk, col) in enumerate(meths):
+            if key not in vals: continue
+            f, nt = vals[key]
+            ax[0].plot(i + (j - 1.5) * 0.17, f, mk, color=col, ms=5, mec='white', label=lab if i == 0 else None)
+            ax[1].plot(f, nt, mk, color=col, ms=5, mec='white')
+        ax[1].annotate(f'batch {batch[1]}', vals['static'], fontsize=6.5, color=INK2, xytext=(4, 3), textcoords='offset points')
+    ax[0].axhline(0.10, color=INK, ls='--', lw=0.9); ax[0].set_xticks(range(3)); ax[0].set_xticklabels(['batch 1', 'batch 2', 'batch 3']); ax[0].set_xlabel('held-out batch', fontsize=7)
+    ax[0].set_ylabel('failure before replacement'); ax[0].set_title('(a) α = 0.10, lead time 30 cycles', fontsize=8, loc='left')
+    ax[0].legend(fontsize=6.2, loc='upper center', bbox_to_anchor=(1.15, -0.2), ncol=2)
+    ax[1].axvline(0.10, color=INK, ls='--', lw=0.9); ax[1].set_xlabel('failure before replacement'); ax[1].set_ylabel('mean notice at planned\nreplacements (cycles)')
+    ax[1].set_title('(b) failure vs notice (GBM signal)', fontsize=8, loc='left')
     save(fig, 'Fig5_transfer')
 
 

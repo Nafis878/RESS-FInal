@@ -1,0 +1,8 @@
+FD001 rep 0 exists
+  cv1 rep 1 (40s)
+  cv2 rep 1 (42s)
+  cv3 rep 1 (40s)
+  cv4 rep 1 (38s)
+  cv5 rep 1 (40s)
+FD001 rep 1 written
+FD001 rep 2 exists

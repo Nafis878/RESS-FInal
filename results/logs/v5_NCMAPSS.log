@@ -1,0 +1,30 @@
+  cv1 GBM 4s
+  cv1 RIDGE 4s
+  cv1 RF 8s
+  cv1 WMLP 9s
+  cv1 settings 22s
+  cv2 GBM 6s
+  cv2 RIDGE 6s
+  cv2 RF 12s
+  cv2 WMLP 14s
+  cv2 settings 29s
+  cv3 GBM 4s
+  cv3 RIDGE 4s
+  cv3 RF 8s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv3 WMLP 10s
+  cv3 settings 22s
+  cv4 GBM 4s
+  cv4 RIDGE 4s
+  cv4 RF 8s
+  cv4 WMLP 9s
+  cv4 settings 22s
+  cv5 GBM 4s
+  cv5 RIDGE 4s
+  cv5 RF 8s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv5 WMLP 10s
+  cv5 settings 23s
+written /home/user/RESS-FInal/results/raw5/NCMAPSS_robust.csv.gz 38313

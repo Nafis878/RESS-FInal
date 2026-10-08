@@ -1,0 +1,27 @@
+\subsection{Cost: the price of the certificate, and how cross-fitting lowers it}\label{sec:res-cost}
+
+\textbf{Split design.} The decision-aware split alarm (CNA-DA, $\alpha_{\max}=0.10$) kept its failure rate at or below $\alpha_{\max}$ in every lead-time and cost-ratio cell with a positive lead time (largest 6.1\,\%; H4b supported) and failed on 1.8\,\% of units over all cells and repetitions. It was cheaper than age replacement on PHM08, FD002, FD004 and the battery cells (12--16 of 16 cells; never significantly dearer anywhere), than the probability-threshold policy with threshold $1/\rho$ on PHM08, FD002 and FD004, and than the optimised probability-threshold policy on PHM08, FD001 and the battery cells (8 of 16 cells each). It was not the cheapest policy (H4 not supported): a cost-tuned alarm with a one-standard-error rule was cheaper in 8 of 16 cells on FD001 and 11 on FD003, and the capacity trend was the cheapest policy on the battery cells. Proposition~\ref{prop:cost}(ii) explains most of the gap: with 32 calibration units no order-statistic level fails less often than 3\,\%, and at $\rho=50$ each such failure costs as much as 49 planned replacements; the cost ratios against the one-standard-error rule grew with $\rho$ and were largest on the two datasets with 32 calibration units (FD001 and FD003; median ratio 1.37 and 1.45) and smallest on those with 70--83 (PHM08 and FD002; 1.00 and 1.04).
+
+\textbf{Cross-fitting.} Calibrating on all training units by cross-fitting attacks that floor directly. The cross-fitted alarm CNA+ at $\alpha=0.10$ failed on 3.8--10.1\,\% of test units at the primary lead time (repetition~0; H7a supported; 4.3--10.1\,\% averaged over the three repetitions), within the nominal level on every dataset although Theorem~\ref{thm:cvplus} guarantees only $2\alpha$ plus a finite-$K$ term, and it gave the same notice as the split alarm (median 15--22 engine cycles; battery 42). Its decision-aware version was cheaper than the split CNA-DA on FD001, FD003 and FD004 (8--12 of 16 cells, never dearer) and mixed elsewhere, so the protocol's prediction of at least four datasets (H7b) was not met. Its mean excess cost over the cheapest policy in each cell fell to 0.4--19.5\,\% (from 8.5--85.6\,\% for the split version; Table~\ref{tab:cost}, Fig.~\ref{fig:cvplus}b).
+
+\input{sec7c_equalinfo}
+
+\begin{table*}[t]\footnotesize\setlength{\tabcolsep}{4pt}
+\caption{Mean excess cost over the cheapest policy in each of the 16 lead-time and cost-ratio cells (\%; cross-validation, repetition~0). Rows~1--3 are certified; the others are not. ``CF'': selected on cross-fitted out-of-fold predictions of all training units and applied through the average of the same five fold models as CNA+ (equal information with CNA+); the split policies use 60\,\% of the training units for fitting and 40\,\% for selection.}\label{tab:cost}
+\input{tab_cost}
+\end{table*}
+
+\subsection{The setting and metric of Kamariotis et al.}\label{sec:res-m}
+
+On their decision grid (decisions every 10 cycles, no lead time) and with their metric $M$, the split CNA-DA reached $M$ = 11.9--34.1\,\% at $c_p/c_c=0.1$ on PHM08 and FD001--FD004 (Table~\ref{tab:m}, Fig.~\ref{fig:cvplus}c). It was better than their policy~1 with an optimised threshold on FD001 ($-1.3$ points, paired 95\,\% interval $-2.0$ to $-0.7$) and indistinguishable from it on the other four datasets, better than policy~1 with the heuristic threshold $c_p/c_c$ on FD004, and better than age replacement on all five. The cost-tuned alarm with the one-standard-error rule had the lowest $M$ on every dataset (4.4--18.1\,\%) and was significantly better than CNA-DA on FD002 and FD004. At $c_p/c_c=0.02$ the floor of Proposition~\ref{prop:cost} dominates: with 32--83 calibration units, a certified failure probability of 1--3\,\% costs as much as 50 preventive replacements per failure, and CNA-DA's $M$ rose to 50--159\,\%, close to that of policy~1 (27--156\,\%), against 4--61\,\% for the one-standard-error rule. The comparison is in our implementation of their policy, with their probability model replaced by an empirical one built from our regressor, and on our splits; the values they report come from other models on a single 20-engine split and are not comparable.
+
+\begin{table}[t]\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Metric $M$ (\%) in the setting of Kamariotis et al.\ ($\Delta T=10$ cycles, no lead time, $c_p/c_c=0.1$; five-fold cross-validation, repetition~0) and, in brackets, test failures.}\label{tab:m}
+\resizebox{\linewidth}{!}{%
+\input{tab_m}}
+\end{table}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=0.95\textwidth]{figures/Fig7_cvplus_M.pdf}
+\caption{(a) Failure before replacement at $\alpha=0.10$ and the primary lead time for the split (CNA) and cross-fitted (CNA+) alarms. (b) Mean excess cost over the cheapest policy in each of the 16 cells for the cross-fitted certified alarm and the uncertified policies built on the same five fold models (equal information); bars: repetition~0, lines: range over the three repetitions. (c) Metric $M$ in the setting of Kamariotis et al.\ at $c_p/c_c=0.1$ with paired-bootstrap 95\,\% intervals (log scale).}\label{fig:cvplus}
+\end{figure*}

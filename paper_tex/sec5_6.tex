@@ -8,7 +8,8 @@
 \textbf{CNA-DA.} Given a cost ratio $\rho$ and a ceiling $\alpha_{\max}$, use $V_{(\hat q)}$ with
 $\hat q=\arg\min_{q\ge q_0}\bigl[1+(\rho-1)\tfrac{n+1-q}{n+1}\bigr]\big/\overline{\text{use}}\bigl(V_{(q)}\bigr)$,
 $q_0=\lceil(n+1)(1-\alpha_{\max})\rceil$, with the mean cycles of use estimated on the calibration units.\\[2pt]
-\textbf{CNA+.} Replace the split by $K$-fold cross-fitting and raise the alarm by rule~\eqref{eq:cvplus}.
+\textbf{CNA+.} Replace the split by $K$-fold cross-fitting and raise the alarm by rule~\eqref{eq:cvplus}.\\[2pt]
+\textbf{Online (new population).} Start from $\hat H$ of the old population; after each group of new units, update the level by~\eqref{eq:online} with the observed outcomes (Theorem~\ref{thm:online}).
 \end{algorithm}
 
 Calibration costs one pass over the calibration series (Fig.~\ref{fig:method}). The numerator of the CNA-DA objective replaces the empirical failure rate by its conformal value, which is never zero: with $q=n$ it is $1/(n+1)$. This is the difference from plain empirical cost minimisation, which sees no failure among calibration units at the edge of the feasible region and was fragile in the earlier study~\cite{prior}. By Corollary~\ref{cor:da} the failure probability of CNA-DA is at most $\alpha_{\max}$ whatever $\rho$ is.
@@ -20,7 +21,7 @@ Calibration costs one pass over the calibration series (Fig.~\ref{fig:method}). 
 
 \section{Experimental design}\label{sec:design}
 
-The protocol (hypotheses H1--H5, datasets, policies, metrics and decision rules) was written and hashed with SHA-256 before the main experiments, and an amendment (H6--H8: censoring, cross-fitting and the setting of Kamariotis et al.) was hashed before its experiments, after the main results were known. The hashes are not registry preregistrations; they show that the files have not changed since, and their timing rests on the repository history. The code was smoke-tested on one fold before each hash.
+The protocol (hypotheses H1--H5, datasets, policies, metrics and decision rules) was written and hashed with SHA-256 before the main experiments. Four amendments were hashed before their own experiments, each after the earlier results were known: H6--H8 (censoring, cross-fitting and the setting of Kamariotis et al.), H9 (comparators with the same information as the cross-fitted alarm), H10 (online calibration under batch shift) and H11--H13 (other learners and alarm settings). The hashes are not registry preregistrations; they show that the files have not changed since, and their timing rests on the repository history. The code was smoke-tested on one fold before each hash. One analysis was added afterwards and is labelled exploratory: the check of Corollary~\ref{cor:pac} on fold-level failure counts.
 
 \textbf{Data.} We use the 218 PHM08 training engines (the development dataset of the earlier study), the C-MAPSS FD001--FD004 training sets (100, 260, 100 and 249 engines)~\cite{saxena2008}, N-CMAPSS reduced to one row per flight (99 engines in nine subsets, six temperature and speed channels)~\cite{ariaschao2021}, and 123 lithium-ion cells of Severson et al.~\cite{severson2019} in three batches (36, 43 and 44 cells; end of life at 80\,\% of nominal capacity), aggregated into blocks of 3 cycles fixed a priori. The engine datasets are simulations from one simulator family; the battery data are laboratory measurements. The 17 PRONOSTIA bearings~\cite{nectoux2012} of the earlier study are excluded: with at most about six calibration bearings per split, $\alpha\le0.10$ is not attainable.
 
@@ -37,12 +38,14 @@ Policy & Signal and trigger & Selected on calibration units & Guarantee \\
 CNA ($\alpha=0.05,0.10,0.20$) & GBM estimate (cap 60; battery 180 cycles), span 3, debounce 2, fixed a priori & $\hat H$ = conformal quantile of critical levels & $P(\text{fail})\le\alpha$ (Thm~\ref{thm:main}) \\
 CNA-DA & As CNA & Order statistic minimising the cost bound, $\alpha_{\max}=0.10$ & $\le0.10$ (Cor.~\ref{cor:da}) \\
 CNA+ / CNA+-DA & As CNA, five cross-fitted models & Count threshold of rule~\eqref{eq:cvplus} & $\le2\alpha+O(K/n)$ (Thm~\ref{thm:cvplus}) \\
+Online CNA (new population) & As CNA & Level updated after each new unit by~\eqref{eq:online} from the old population's $\hat H$ & Long-run rate (Thm~\ref{thm:online}) \\
 LB-all / LB-near & As CNA; alarm when $s_t-q_\alpha\le\ell+1$ & Conformal quantile of per-row residuals (all rows / rows with $r\le$ cap) & Per-row only \\
 STW, window-tuned & GBM estimate (cap 40/60/90), span, debounce, shift & Most correct first warnings per $H$; $H$ by calibration cost & None \\
 STW, cost-tuned (plain, 1-SE) & GBM estimate, span, debounce, threshold (2,160 settings) & Lowest calibration cost; 1-SE: largest notice within one bootstrap SE & None \\
 Kamariotis P1 ($1/\rho$, optimised) & $P(r\le\ell+\Delta t\mid\text{estimate bin})$ from calibration rows (P-res) & Threshold $1/\rho$, or optimised on calibration cost & None \\
 Age replacement & Age & Replacement age on training lives & None \\
 Capacity trend (battery) & Discharge capacity extrapolated to 0.88\,Ah & As the STW and CNA counterparts, on all training cells & CNA version: Thm~\ref{thm:main} \\
+CF versions (STW cost-tuned plain and 1-SE; P1 optimised and $1/\rho$) & Average of the five fold models of CNA+ & Out-of-fold predictions of all training units & None \\
 \bottomrule
 \end{tabular}
 \end{table*}
