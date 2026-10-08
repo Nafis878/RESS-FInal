@@ -63,10 +63,10 @@ def run_split(df, kind, an, name, tr, te, rep, sidx):
     L = np.array([d['L'] for d in cal])
     for lead in cfg['leads']:
         V = np.array([C.critical_level(rm, d['r'], lead) for rm, d in zip(RMc, cal)])
+        Vte = np.array([C.critical_level(rm, d['r'], lead) for rm, d in zip(RMt, tes)])
+        recs, Hs = [], []                                                          # evaluate all levels of this lead at once
         for a in ALPHAS:                                                             # reference: no censoring
-            s_, u_, n_ = eval_level(RMt, tes, C.conformal_level(V, a), lead)
-            cens.append(dict(base, lead=lead, alpha=a, mechanism='none', pi=0.0, draw=-1, method='oracle', frac_cens=0.0,
-                             H=C.conformal_level(V, a), fail=float(1 - s_.mean()), notice=float(np.nanmean(np.where(s_, n_, np.nan))), n_test=len(tes)))
+            recs.append(dict(base, lead=lead, alpha=a, mechanism='none', pi=0.0, draw=-1, method='oracle', frac_cens=0.0)); Hs.append(C.conformal_level(V, a))
         for mech in ('random', 'administrative', 'policy'):
             for pi in (PIS if mech != 'policy' else [np.nan]):
                 for draw in range(N_DRAWS):
@@ -87,10 +87,18 @@ def run_split(df, kind, an, name, tr, te, rep, sidx):
                     for a in ALPHAS:
                         for meth, Hh in (('censored_as_failure', C.conformal_level(U, a)),
                                          ('complete_case', C.conformal_level(V[~cz], a) if (~cz).sum() else np.inf)):
-                            s_, u_, n_ = eval_level(RMt, tes, Hh, lead)
-                            cens.append(dict(base, lead=lead, alpha=a, mechanism=mech, pi=pi, draw=draw, method=meth, frac_cens=float(cz.mean()),
-                                             H=Hh, fail=float(1 - s_.mean()), notice=float(np.nanmean(np.where(s_, n_, np.nan))) if s_.any() else np.nan,
-                                             n_test=len(tes)))
+                            recs.append(dict(base, lead=lead, alpha=a, mechanism=mech, pi=pi, draw=draw, method=meth, frac_cens=float(cz.mean())))
+                            Hs.append(Hh)
+        Hs = np.array(Hs)
+        fail = (Vte[:, None] > Hs[None, :])                                          # Lemma 2: failure iff V_test > H
+        J = np.vstack([C.first_alarm(rm, Hs) for rm in RMt])                         # alarm rows for every level
+        notice = np.vstack([np.where(J[i] < len(d['r']), d['r'][np.minimum(J[i], len(d['r']) - 1)], np.nan) for i, d in enumerate(tes)])
+        assert np.array_equal(fail, ~(np.nan_to_num(notice, nan=-1) > lead)), 'Lemma 2 check'
+        nt = np.where(fail, np.nan, notice)
+        with np.errstate(all='ignore'):
+            mn = np.nanmean(nt, 0)
+        for r, h, f, m_ in zip(recs, Hs, fail.mean(0), mn):
+            r.update(H=h, fail=float(f), notice=float(m_), n_test=len(tes)); cens.append(r)
 
     # ---------------------------------------------------------------- B. cross-fitted calibration on all training units (CV+)
     folds = np.array_split(np.random.default_rng(3000 + 100 * rep + sidx).permutation(tr), 5)
