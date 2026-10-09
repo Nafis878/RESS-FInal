@@ -1,0 +1,28 @@
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv1 rep 0 25s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv2 rep 0 24s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv3 rep 0 23s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv4 rep 0 24s
+/usr/local/lib/python3.13/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:785: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+  warnings.warn(
+  cv5 rep 0 23s
+BATTERY rep 0 written
+  cv1 rep 1 4s
+  cv2 rep 1 4s
+  cv3 rep 1 4s
+  cv4 rep 1 5s
+  cv5 rep 1 4s
+BATTERY rep 1 written
+  cv1 rep 2 4s
+  cv2 rep 2 4s
+  cv3 rep 2 4s
+  cv4 rep 2 3s
+  cv5 rep 2 4s
+BATTERY rep 2 written

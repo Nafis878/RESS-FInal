@@ -1,0 +1,356 @@
+{
+ "S1": {
+  "passed": true,
+  "x": 0.9972932204298761,
+  "m": 40,
+  "mean_life": 368.3191,
+  "cna_fail": 0.024
+ },
+ "S2": {
+  "passed": true,
+  "pf": 0.5064,
+  "pooled_miss": 0.004998600000000001
+ },
+ "S3": {
+  "passed": true,
+  "rows": [
+   {
+    "errors": "AR0",
+    "pF": 0.01138,
+    "se": 0.00023717604853778975,
+    "product": 0.011594576585445252,
+    "minimum": 0.3588180307589475,
+    "ok": 1.0
+   },
+   {
+    "errors": "AR0.5",
+    "pF": 0.06098,
+    "se": 0.0005350768150462137,
+    "product": 0.011594576585445252,
+    "minimum": 0.3588180307589475,
+    "ok": 1.0
+   },
+   {
+    "errors": "AR0.9",
+    "pF": 0.26627,
+    "se": 0.0009883579490751315,
+    "product": 0.011594576585445252,
+    "minimum": 0.3588180307589475,
+    "ok": 1.0
+   },
+   {
+    "errors": "AR0.99",
+    "pF": 0.35604,
+    "se": 0.0010706902409193802,
+    "product": 0.011594576585445252,
+    "minimum": 0.3588180307589475,
+    "ok": 1.0
+   },
+   {
+    "errors": "MA5",
+    "pF": 0.17291,
+    "se": 0.0008456125942179433,
+    "product": 0.011594576585445252,
+    "minimum": 0.3588180307589475,
+    "ok": 1.0,
+    "mdep_bound": 0.28060829984009605
+   }
+  ]
+ },
+ "S4_S5": {
+  "passed": true,
+  "table": [
+   {
+    "mech": "CAR",
+    "method": "CC",
+    "mean": 0.0821,
+    "std": 0.0251,
+    "count": 2000,
+    "se": 0.0006,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2_G1",
+    "mean": 0.0136,
+    "std": 0.0039,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2_G4",
+    "mean": 0.0134,
+    "std": 0.004,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2_Ginf",
+    "mean": 0.0128,
+    "std": 0.0047,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2base_G1",
+    "mean": 0.0135,
+    "std": 0.0037,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2base_G4",
+    "mean": 0.0133,
+    "std": 0.0041,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "E2base_Ginf",
+    "mean": 0.0128,
+    "std": 0.0047,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "IPCW",
+    "mean": 0.0948,
+    "std": 0.0263,
+    "count": 2000,
+    "se": 0.0006,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "ORACLE",
+    "mean": 0.0999,
+    "std": 0.0227,
+    "count": 2000,
+    "se": 0.0005,
+    "ok": true
+   },
+   {
+    "mech": "CAR",
+    "method": "T2",
+    "mean": 0.0128,
+    "std": 0.0047,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "CC",
+    "mean": 0.0867,
+    "std": 0.0265,
+    "count": 2000,
+    "se": 0.0006,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2_G1",
+    "mean": 0.0135,
+    "std": 0.0038,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2_G4",
+    "mean": 0.0132,
+    "std": 0.0042,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2_Ginf",
+    "mean": 0.0127,
+    "std": 0.0048,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2base_G1",
+    "mean": 0.0135,
+    "std": 0.0038,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2base_G4",
+    "mean": 0.0132,
+    "std": 0.0042,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "E2base_Ginf",
+    "mean": 0.0127,
+    "std": 0.0048,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "IPCW",
+    "mean": 0.0922,
+    "std": 0.0267,
+    "count": 2000,
+    "se": 0.0006,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "ORACLE",
+    "mean": 0.0999,
+    "std": 0.0227,
+    "count": 2000,
+    "se": 0.0005,
+    "ok": true
+   },
+   {
+    "mech": "CARX",
+    "method": "T2",
+    "mean": 0.0127,
+    "std": 0.0048,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "CC",
+    "mean": 0.1041,
+    "std": 0.0333,
+    "count": 2000,
+    "se": 0.0007,
+    "ok": false
+   },
+   {
+    "mech": "INF4",
+    "method": "E2_G1",
+    "mean": 0.0134,
+    "std": 0.0039,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "E2_G4",
+    "mean": 0.0127,
+    "std": 0.0048,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "E2_Ginf",
+    "mean": 0.0116,
+    "std": 0.0058,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "E2base_G1",
+    "mean": 0.0134,
+    "std": 0.0039,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "E2base_G4",
+    "mean": 0.0128,
+    "std": 0.0047,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "E2base_Ginf",
+    "mean": 0.0116,
+    "std": 0.0058,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "IPCW",
+    "mean": 0.1307,
+    "std": 0.0361,
+    "count": 2000,
+    "se": 0.0008,
+    "ok": false
+   },
+   {
+    "mech": "INF4",
+    "method": "ORACLE",
+    "mean": 0.0999,
+    "std": 0.0227,
+    "count": 2000,
+    "se": 0.0005,
+    "ok": true
+   },
+   {
+    "mech": "INF4",
+    "method": "T2",
+    "mean": 0.0116,
+    "std": 0.0058,
+    "count": 2000,
+    "se": 0.0001,
+    "ok": true
+   }
+  ]
+ },
+ "S6": {
+  "passed": true,
+  "mean": {
+   "rep": 999.5,
+   "unweighted": 0.0941,
+   "weighted_known": 0.0952,
+   "weighted_est": 0.095,
+   "concept_shift": 0.1045,
+   "gap_bound": 0.0226,
+   "ess": 108.2592
+  },
+  "se": {
+   "rep": 12.91317,
+   "unweighted": 0.0005,
+   "weighted_known": 0.00062,
+   "weighted_est": 0.00062,
+   "concept_shift": 0.00061,
+   "gap_bound": 0.00038,
+   "ess": 0.27378
+  }
+ }
+}

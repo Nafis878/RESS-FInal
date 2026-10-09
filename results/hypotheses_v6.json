@@ -1,0 +1,141 @@
+{
+ "H14a": {
+  "reproduces_run_py": {
+   "PHM08": true,
+   "FD001": true,
+   "FD002": true,
+   "FD003": true,
+   "FD004": true,
+   "NCMAPSS": true,
+   "BATTERY": true
+  },
+  "supported": true
+ },
+ "H14b": {
+  "significant": 7,
+  "rates": {
+   "BATTERY": 0.4472,
+   "FD001": 0.24,
+   "FD002": 0.25,
+   "FD003": 0.3,
+   "FD004": 0.4498,
+   "NCMAPSS": 0.1717,
+   "PHM08": 0.3578
+  },
+  "supported": true
+ },
+ "H14c": {
+  "significant": 0,
+  "rates": {
+   "BATTERY": 0.0325,
+   "FD001": 0.03,
+   "FD002": 0.0154,
+   "FD003": 0.06,
+   "FD004": 0.0924,
+   "NCMAPSS": 0.1313,
+   "PHM08": 0.0459
+  },
+  "no_dataset_significant": true
+ },
+ "H14d": {
+  "significant_per_learner": {
+   "RF": 6,
+   "RIDGE": 7,
+   "WMLP": 3
+  },
+  "supported": true
+ },
+ "H15a": {
+  "supported": true
+ },
+ "H15b": {
+  "count": 6,
+  "supported": true,
+  "ratio": {
+   "BATTERY": 4.38,
+   "FD001": 2.4,
+   "FD002": 2.73,
+   "FD003": 3.32,
+   "FD004": 4.19,
+   "NCMAPSS": 1.65,
+   "PHM08": 3.29
+  }
+ },
+ "H15c": {
+  "count": 14,
+  "of": 14,
+  "all_LBall": true
+ },
+ "H17a": {
+  "supported": true,
+  "cells_ok": {
+   "M1/E2HIST_G1": 7,
+   "M1/E2BASE_G1": 7,
+   "M2/E2HIST_G1": 7,
+   "M2/E2BASE_G1": 7
+  }
+ },
+ "H17b": {
+  "supported": true,
+  "datasets_lower_notice": {
+   "M1": 7,
+   "M2": 7
+  }
+ },
+ "H17c": {
+  "supported": true,
+  "cells_ok": 7
+ },
+ "H17d": {
+  "T2_ok_all": true,
+  "violations": {
+   "E2HIST_G1": 0,
+   "E2BASE_G1": 0
+  },
+  "supported": false,
+  "smallest_gamma_valid": {
+   "E2HIST": "1",
+   "E2BASE": "1"
+  }
+ },
+ "H18": {
+  "groups": {
+   "BATTERY/g2": {
+    "static": 0.767,
+    "weighted": 0.628,
+    "tol": 0.191,
+    "weighted_ok": false,
+    "infinite": 0.326
+   },
+   "BATTERY/g3": {
+    "static": 0.591,
+    "weighted": 0.568,
+    "tol": 0.19,
+    "weighted_ok": false,
+    "infinite": 0.0
+   },
+   "NCMAPSS/g7": {
+    "static": 0.333,
+    "weighted": 0.333,
+    "tol": 0.255,
+    "weighted_ok": false,
+    "infinite": 0.0
+   },
+   "NCMAPSS/g8": {
+    "static": 0.3,
+    "weighted": 0.2,
+    "tol": 0.29,
+    "weighted_ok": true,
+    "infinite": 0.0
+   }
+  },
+  "supported": false
+ },
+ "simulations": {
+  "S1": true,
+  "S2": true,
+  "S3": true,
+  "S4_S5": true,
+  "S6": true
+ }
+}

@@ -1,0 +1,12 @@
+S1 1s
+S2 1s
+S3 8s
+S4 137s
+S6 156s
+{
+ "S1": false,
+ "S2": true,
+ "S3": true,
+ "S4_S5": true,
+ "S6": true
+}

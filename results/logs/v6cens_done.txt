@@ -1,0 +1,7 @@
+cens PHM08 0
+cens FD002 0
+cens FD004 0
+cens NCMAPSS 0
+cens FD001 0
+cens FD003 0
+cens BATTERY 0

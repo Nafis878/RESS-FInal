@@ -1,0 +1,11 @@
+cens BATTERY 1
+cens NCMAPSS 143
+shift BATTERY 0
+cens BATTERY 0 (rerun)
+cens NCMAPSS 0 (rerun)
+shift NCMAPSS 0
+cens FD002 0
+cens FD001 0
+cens FD004 0
+cens FD003 0
+cens PHM08 0

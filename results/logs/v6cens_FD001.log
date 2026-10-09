@@ -1,0 +1,14 @@
+/home/user/RESS-FInal/code/run6_cens.py:146: RuntimeWarning: Mean of empty slice
+  notice = np.nanmean(np.where(hz[:, None] & ~fail, rJ, np.nan), 0)
+  cv1 15s
+/home/user/RESS-FInal/code/run6_cens.py:146: RuntimeWarning: Mean of empty slice
+  notice = np.nanmean(np.where(hz[:, None] & ~fail, rJ, np.nan), 0)
+  cv2 15s
+/home/user/RESS-FInal/code/run6_cens.py:146: RuntimeWarning: Mean of empty slice
+  notice = np.nanmean(np.where(hz[:, None] & ~fail, rJ, np.nan), 0)
+  cv3 14s
+  cv4 14s
+/home/user/RESS-FInal/code/run6_cens.py:146: RuntimeWarning: Mean of empty slice
+  notice = np.nanmean(np.where(hz[:, None] & ~fail, rJ, np.nan), 0)
+  cv5 14s
+FD001 written
